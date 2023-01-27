@@ -15,7 +15,7 @@
     --lumi: #c0fa62;
     --gradient: linear-gradient(45deg,
             rgba(54, 54, 54, 0.8) 0%,
-            rgba(88, 88, 88, 0.7) 100%);
+            rgba(125, 125, 125, 0.7) 100%);
     --gradient-light: linear-gradient(45deg,
             rgba(158, 158, 158, 0.8) 0%,
             rgba(255, 255, 255, 0.7) 100%);
@@ -52,6 +52,10 @@ h4 {
     font-size: 18px;
 }
 
+h5 {
+    font-size: 16px;
+}
+
 button {
     width: 100%;
     border: none;
@@ -71,6 +75,7 @@ button {
     height: 10rem;
     text-align: center;
     /* border: 1px solid red; */
+    background-color: var(--gradient);
 }
 
 .header .container {
@@ -89,6 +94,8 @@ button {
 
 .header-title img {
     margin-left: -1.5rem;
+    margin-bottom: 1rem;
+    /* border: 1px solid red; */
 }
 
 .todays-date {
@@ -116,7 +123,18 @@ button {
     background-color: #fff;
     color: #333333;
     border-radius: 1rem;
+    padding-top: 0;
+    padding: 1rem 2rem;
+    padding-bottom: 3rem;
+    /* border: 1px solid red; */
 }
+
+.current-top {
+    margin-top: -1rem;
+    padding-top: -1rem;
+    padding-bottom: 1.5rem;
+}
+
 
 .weather-search {
     border: none;
@@ -132,7 +150,9 @@ button {
 }
 
 .description {
-    margin-top: -2rem;
+    display: inline-flex;
+    justify-content: space-between;
+    /* margin-top: -1rem; */
 }
 
 .current {
@@ -158,4 +178,31 @@ button {
 
 .weather-icon {
     float: right;
+}
+
+.weather-bottom {
+    margin-top: -2rem;
+    padding-top: 0;
+    padding: 2rem;
+    /* border: 1px solid lightgreen; */
+    text-align: center;
+}
+
+.five-day-cards {
+    margin: 1rem auto;
+    text-align: center;
+    padding: 2rem;
+    /* border: 1px solid red; */
+}
+
+.weather-bottom #forecast-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* border: 1px solid red; */
+}
+
+.card {
+    width: 200px;
+    height: 300px;
 }
