@@ -5,8 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+  <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="assets/css/reset.css">
   <link rel="stylesheet" href="./assets/css/style.css">
   <title>Weather Dashboard</title>
@@ -42,14 +42,17 @@
             <h2 id="date"></h2>
             <h3 id="time"></h3>
         </div>
-        <div class="city-name"></div>
-        <div class="current"></div>
         <div class="list-group" id="history"></div>
       </aside>
 
-      <div class="col-lg-9 pb-3">
+      <div class="col-lg-9 pb-3 viewer">
         <section id="today" class="mt-3" role="region" aria-live="polite"></section>
-        <section id="forecast" class="row mt-3" role="region" aria-live="polite"></section>
+        <section id="forecast" class="row mt-3" role="region" aria-live="polite">
+          <div class="city-name"></div>
+                  <!-- generated icon here set to ''-->
+        <div class="weather-icon"><img src="./assets/images/openweathermap-api-icons/icons/unknown.png"></div>
+          <div class="current"></div>
+        </section>
       </div>
     </div>
   </div>

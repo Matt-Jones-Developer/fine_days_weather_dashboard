@@ -6,6 +6,7 @@ console.log(searchBtn)
 const userInput = document.querySelector('#search-input')
 console.log(userInput)
 let cityName = document.querySelector('.city-name')
+let weatherIcon = document.querySelector('.weather-icon')
 let current = document.querySelector('.current')
 let history = document.querySelector('#history')
 console.log(history)
@@ -131,10 +132,10 @@ $('#search-button').on('click', function (event) {
 
                         // getWeather(lat, lon);
                         // add and append it below 
-                        let cityTemp = document.createElement('h1');
+                        let cityTemp = document.createElement('h2');
                         cityTemp.textContent = `The current temperature is: ${cels} °C`;
                         // for American folks!
-                        let cityTempF = document.createElement('h1');
+                        let cityTempF = document.createElement('h2');
                         cityTempF.textContent = `For you American folk, that's: ${fahr} °F`;
                         // append to page 
                         current.appendChild(cityTemp)
@@ -145,7 +146,7 @@ $('#search-button').on('click', function (event) {
                         // log humidity
                         console.log(data["main"]["humidity"] +'%')
                         let hum = data["main"]["humidity"];
-                        let humidity = document.createElement('h2');
+                        let humidity = document.createElement('h3');
                         humidity.textContent = `Current humidity is ${hum}%`
                         current.appendChild(humidity)
 
@@ -164,8 +165,36 @@ $('#search-button').on('click', function (event) {
                         let windMph = document.createElement('h3');
                         windMph.textContent = `Wind speed is currently ${mphFixed} MPH`
                         current.appendChild(windMph)
-                        
 
+                        // description
+                        
+                        let desc = data.weather[0].description;
+                        console.log(desc)
+
+                        let description = document.createElement('h3');
+                        description.textContent = `The forecast for ${city} is ${desc}.`
+                        current.appendChild(description)
+
+                        // icon code
+
+                        console.log(data.weather[0].icon) // grabs icon code for city
+                        // let iconCode = data.weather[0].icon;
+                        let {icon} = data.weather[0];
+
+                        // let iconUrl = "http://openweathermap.org/img/w/" + iconCode + ".png";
+                        
+                        //display icon:
+                        // let iconDiv = document.createElement('img');
+                        // iconDiv.setAttribute('class', 'weather-icon');
+                        // iconDiv.innerHTML = `<img src="${iconImg}">`;
+                        // weatherIcon.append(icon)
+
+                        // $('#weather-icon').attr('src', iconUrl);
+
+                        weatherIcon.innerHTML = `
+                        <img src="./assets/images/openweathermap-api-icons/icons/${icon}.png">`;
+                        
+                    
                     }
                 })
             }

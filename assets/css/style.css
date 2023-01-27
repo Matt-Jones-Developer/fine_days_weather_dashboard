@@ -1,4 +1,84 @@
+/* weather app CSS styling */
+
+:root {
+    --dark: #333333;
+    --light: #fff;
+    --highlight: #74FBB5;
+    --hover: #fff;
+    --hover-span: orange;
+    --box-shadow: rgba(0, 0, 0, 0.8);
+    --gb-grey: #BCBEC3;
+    --peachy: #F3AEAC;
+    --peachier: #EA655D;
+    --purps: #A5ACF5;
+    --aqua: #74FBB5;
+    --lumi: #c0fa62;
+    --gradient: linear-gradient(45deg,
+            rgba(54, 54, 54, 0.8) 0%,
+            rgba(88, 88, 88, 0.7) 100%);
+    --gradient-light: linear-gradient(45deg,
+            rgba(158, 158, 158, 0.8) 0%,
+            rgba(255, 255, 255, 0.7) 100%);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+}
+
+body {
+    background-image: var(--gradient);
+    font-family: 'Raleway', sans-serif;
+    font-size: 1.2rem;
+    color: var(--light);
+    line-height: 1.5;
+    padding: 0;
+    margin: 0;
+
+}
+
+/* flex container */
+
+.container {
+    margin: 0 auto;
+}
+
+/* header */
+
+.header .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* main */
+
+.main {
+    margin: 0 auto;
+    padding: 2rem;
+
+}
+
+.viewer {
+    background-color: #fff;
+    color: #333333;
+}
+
+
+.multi-day .container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 2fr;
+    grid-template-areas:
+        "about-text about-text photo";
+    justify-content: center;
+
+}
+
 .city-name {
 
-font-size: 38px;
+    font-size: 38px;
+
 }
