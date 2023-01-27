@@ -1,0 +1,151 @@
+// pseudo notes for weather project
+
+MVP FIRST.  
+
+1. DATA 
+2. TESTING
+3. UI Design
+
+1. build a weather dashboard that will:
+
+    // utilise a weather API to retrieve weather info via JSON
+    // run in the browser and display current weather conditions
+    // a search bar allowing users to enter a city 
+    // calc that might convert celsius to fahrenheit / kelvin etc
+    // daily and upcoming (5-day) forecasts
+
+    // feature dynamically updated HTML and CSS:
+
+        // adding textContent to elements 
+        // appending them to elements 
+        // storing them (persistently)
+
+    // A good looking UI:
+
+        // has a header / title 
+        // has a search section with button
+        // has previous cities entered buttons that are added to the UI and persist in localStorage
+        // has a larger, 'this cities current weather' pane
+        // has a set of 5 cards (5 day forecast) below the main day
+
+
+2. what information do I have?
+
+    // DATA FIRST! What is required?
+
+        1. fetch city 
+        1b: fetch local date and time
+
+        2. fetch current weather for entered city
+            2b: data includes:
+                1. temperature (C/F)
+                2. Wind speed (KPH/MPH)
+                3. Humidity (%)
+                4. icon (or equivalent summary info to set the correct icon)
+
+        3. 5-day API forecast 
+
+
+    // testing:  
+        // console log everything 
+        // can we access successfully:
+            // the city?
+            // current weather (human readable stringify)?
+            // the temp, wind speed and humidity?
+
+
+    // UI [MVP] requires:
+        // a search bar (search city)
+        // a window that displays the:
+            // city name, date, time and an appropriate icon (sunny/cloudy/rainy)
+            // temp C/F
+            // wind KPH
+            // Humidity %
+
+        // a 5-day forecast card set (gathered via API 5 day)
+            // 5 cards to hold each days forecast info:
+            // that days date
+            // an icon (weather appropriate)
+            // temp reading 
+            // wind KPH
+            // humidity %
+
+3. Breaking it down 
+
+// DATA:
+
+ 1. the weather API service and API key [DONE]
+ 2. make API calls (receive info) for:
+    1. city [DONE] data.city.name 
+    2. day, date and time (momentJS? or api driven?)
+    3. temp in C or F (convert K->F and F->C function required)
+    4. wind speed (convert KPH to MPH function required)
+    5. Humidity % based 
+    6. A 5-day forecast retrieved for that city 
+
+3. functions:
+
+    1. 'on click' event (search button function) [USER INPUT] 
+        // this function will gather ALL required data for city (see above)
+
+    2. data conversion function:
+        1. Kelvin to Fahrenheit conversion function using;
+            (K − 273.15) × 9/5 + 32 = °F.
+        2. A Fahrenheit to Celsius calc that is tagged on:
+            (F * by 1.8 (or 9/5) and + 32.)
+        3. KPH to MPH function
+            (KPH / 1.609344 = MPH.)
+
+    3. fetch data [object] function:
+        // takes a (data) input 
+        // returns: (parsed!)
+            // city (data.name?)
+            // date (momentJS?) (data.date?)
+            // local time (momentJS?) (data.time?)
+            // temperature (data.temp?)
+            // wind speed (data.wind.speed?)
+            // humidity (data.humidity) 
+            // description (data.description) indexed?
+            // icon (if available) data.location.icon
+
+    4. currentWeather function
+        // fetch city 
+        // .then (data => dataObject(data)
+
+    5. multiDayForecast function ?
+        // fetch 5-day from API for that city 
+
+    * could these be compounded into a getWeather() function?
+
+
+4. global variables 
+
+    // search button (document.querySelector('.search'))
+    // user input area (document.querySelector('.input'))
+    // current searches (document.querySelector('.current'))
+    // previous searches (document.querySelector('.previous'))
+    // previousClear (document.querySelector('.clear'))
+
+
+// test all to make sure we can successfully retrieve all this data 
+
+
+// UI Design (developed only once MVP achieved!)
+
+1. full flex containers and responsive design
+2. weather image -opacity faded background image  
+3. cool 'sun with glasses' vitalite style header img
+4. colour palette that changes based on the weather! 
+    // if its rainy/cloudy = blue and white 
+    // if sunny/bright = orange and white 
+    // have a sun/moon dark/light theme button 
+5. wireframed design UI with correct areas that 'block' on smaller screens
+
+// how can we fill that ugly gap between the 'daily forecast' white space and the 'full screen width' required by the 5-day??
+
+
+
+
+
+
+    

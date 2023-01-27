@@ -1,0 +1,24 @@
+// pseudo code for each element 
+
+1. search bar (input) and Search Button (button)
+    // user types in a city name 
+        !! must be:
+            -> spelled correctly 
+            -> must be text not a number 
+            -> must contains A-Z only 
+            -> ignore 'null'
+    
+    // user hits button:
+        // on click event 
+        // preventDefault()
+        // grab text (let location = $('#search-input)).val()
+        // let queryURL (city and api interpolation)
+        // fetch from queryURL
+            // .then location => { // grab stuff }
+
+2. history buttons 
+    // generate a new button for each searched city 
+        // when it's clicked on again -> re-fetch that data
+
+    
+
