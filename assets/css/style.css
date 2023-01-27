@@ -39,6 +39,13 @@ body {
 
 }
 
+button {
+    width: 100%;
+    border: none;
+    margin: 1rem;
+    margin-left: 0;
+}
+
 /* flex container */
 
 .container {
@@ -47,10 +54,17 @@ body {
 
 /* header */
 
+.header {
+    height: 12rem;
+    text-align: center;
+    /* border: 1px solid red; */
+}
+
 .header .container {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+    padding-top: 2rem;
 }
 
 /* main */
@@ -61,9 +75,28 @@ body {
 
 }
 
+.weather-top {
+
+    margin: 2rem;
+
+}
+
 .viewer {
     background-color: #fff;
     color: #333333;
+}
+
+.weather-search {
+    border: none;
+    height: 2rem;
+    padding: 1rem;
+}
+
+.current-top .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: -1rem;
 }
 
 

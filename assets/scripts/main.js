@@ -27,7 +27,7 @@ setInterval(function () {
     let today = moment();
 
     document.querySelector('#time').textContent =
-        today.format('[Current UK time:] HH:mm:ss')
+        today.format('[Current time (GMT):] HH:mm:ss')
     // specify every second to update
 }, 1000)
 
@@ -80,11 +80,11 @@ $('#search-button').on('click', function (event) {
             // lets stick with vanilla!
             // create
             let cityTitle = document.createElement('h1');
-            let cityCoords = document.createElement('h3');
+            // let cityCoords = document.createElement('h3');
 
             // set its content
             cityTitle.textContent = `${city}, ${country}`;
-            cityCoords.textContent = `Lat: ${lat}, Lon: ${lon}`;
+            // cityCoords.textContent = `Lat: ${lat}, Lon: ${lon}`;
 
             // put on the page (append)
             cityName.appendChild(cityTitle)
@@ -122,7 +122,7 @@ $('#search-button').on('click', function (event) {
                         fahToCel(fah)
                         // fahrenheit to celsius converter function
                         function fahToCel(fah) {
-                            getCels = (parseFloat(fah) - 32) * 5/9;
+                            getCels = (parseFloat(fah) - 32) * 5 / 9;
                             return getCels;
                         }
 
@@ -130,30 +130,40 @@ $('#search-button').on('click', function (event) {
                         cels = getCels.toFixed(0); // OK
                         fahr = fah.toFixed(1); // oddly, not ok??
 
+
+                        // description
+
+                        let desc = data.weather[0].description;
+                        console.log(desc)
+
+                        let description = document.createElement('h4');
+                        description.textContent = `The forecast for ${city} is ${desc}.`
+                        current.appendChild(description)
+
                         // getWeather(lat, lon);
                         // add and append it below 
-                        let cityTemp = document.createElement('h2');
+                        let cityTemp = document.createElement('h3');
                         cityTemp.textContent = `The current temperature is: ${cels} °C`;
                         // for American folks!
-                        let cityTempF = document.createElement('h2');
+                        let cityTempF = document.createElement('h3');
                         cityTempF.textContent = `For you American folk, that's: ${fahr} °F`;
                         // append to page 
                         current.appendChild(cityTemp)
                         current.appendChild(cityTempF)
-                        
-                    
+
+
 
                         // log humidity
-                        console.log(data["main"]["humidity"] +'%')
+                        console.log(data["main"]["humidity"] + '%')
                         let hum = data["main"]["humidity"];
-                        let humidity = document.createElement('h3');
+                        let humidity = document.createElement('h4');
                         humidity.textContent = `Current humidity is ${hum}%`
                         current.appendChild(humidity)
 
                         // windspeed
                         console.log(data.wind.speed)
                         let wind = data.wind.speed;
-                        let windSpeed = document.createElement('h3');
+                        let windSpeed = document.createElement('h4');
                         windSpeed.textContent = `Wind speed is currently ${wind} KPH`
                         current.appendChild(windSpeed)
 
@@ -162,27 +172,18 @@ $('#search-button').on('click', function (event) {
                         let mph = parseFloat(wind) / 1.609344
                         console.log(mph)
                         let mphFixed = mph.toFixed(2)
-                        let windMph = document.createElement('h3');
+                        let windMph = document.createElement('h4');
                         windMph.textContent = `Wind speed is currently ${mphFixed} MPH`
                         current.appendChild(windMph)
-
-                        // description
-                        
-                        let desc = data.weather[0].description;
-                        console.log(desc)
-
-                        let description = document.createElement('h3');
-                        description.textContent = `The forecast for ${city} is ${desc}.`
-                        current.appendChild(description)
 
                         // icon code
 
                         console.log(data.weather[0].icon) // grabs icon code for city
                         // let iconCode = data.weather[0].icon;
-                        let {icon} = data.weather[0];
+                        let { icon } = data.weather[0];
 
                         // let iconUrl = "http://openweathermap.org/img/w/" + iconCode + ".png";
-                        
+
                         //display icon:
                         // let iconDiv = document.createElement('img');
                         // iconDiv.setAttribute('class', 'weather-icon');
@@ -193,8 +194,8 @@ $('#search-button').on('click', function (event) {
 
                         weatherIcon.innerHTML = `
                         <img src="./assets/images/icons/${icon}.png">`;
-                        
-                    
+
+
                     }
                 })
             }
@@ -209,7 +210,7 @@ $('#search-button').on('click', function (event) {
 
 
 
-//Source: https://stackoverflow.com/questions/53279378
+            //Source: https://stackoverflow.com/questions/53279378
 
 
 
