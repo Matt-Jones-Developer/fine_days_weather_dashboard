@@ -7,7 +7,9 @@ const userInput = document.querySelector('#search-input')
 console.log(userInput)
 let cityName = document.querySelector('.city-name')
 let weatherIcon = document.querySelector('.weather-icon')
+let description = document.querySelector('.description')
 let current = document.querySelector('.current')
+
 let history = document.querySelector('#history')
 console.log(history)
 
@@ -40,7 +42,7 @@ $('#search-button').on('click', function (event) {
     let location = $('#search-input').val();
 
     // by city name (search entry)
-    let queryURL = `https://api.openweathermap.org/data/2.5/forecast?q=${location}&appid=${apiKey}`
+    let queryURL = `https://api.openweathermap.org/data/2.5/forecast?q=${location}&appid=${apiKey}&cnt=5`
     console.log(queryURL)
 
     // fetch from API
@@ -130,15 +132,14 @@ $('#search-button').on('click', function (event) {
                         cels = getCels.toFixed(0); // OK
                         fahr = fah.toFixed(1); // oddly, not ok??
 
-
                         // description
 
                         let desc = data.weather[0].description;
                         console.log(desc)
 
-                        let description = document.createElement('h4');
-                        description.textContent = `The forecast for ${city} is ${desc}.`
-                        current.appendChild(description)
+                        let cityDescription = document.createElement('h2');
+                        cityDescription.textContent = `The forecast for ${city} is ${desc}.`
+                        description.appendChild(cityDescription)
 
                         // getWeather(lat, lon);
                         // add and append it below 
@@ -165,7 +166,7 @@ $('#search-button').on('click', function (event) {
                         let wind = data.wind.speed;
                         let windSpeed = document.createElement('h4');
                         windSpeed.textContent = `Wind speed is currently ${wind} KPH`
-                        current.appendChild(windSpeed)
+                        // current.appendChild(windSpeed)
 
                         // get MPH: KPH / 1.609344 = MPH
 
@@ -181,6 +182,13 @@ $('#search-button').on('click', function (event) {
                         console.log(data.weather[0].icon) // grabs icon code for city
                         // let iconCode = data.weather[0].icon;
                         let { icon } = data.weather[0];
+
+                        // feels like 
+                        console.log(data["main"]["feels_like"]) // ok
+                        let feels = data["main"]["feels_like"]
+                        let feelsLike = document.createElement('h4');
+                        feelsLike.textContent = `Feels like ${feels} F`;
+                        current.appendChild(feelsLike)
 
                         // let iconUrl = "http://openweathermap.org/img/w/" + iconCode + ".png";
 

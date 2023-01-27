@@ -39,6 +39,19 @@ body {
 
 }
 
+h2 {
+
+    font-size: 28px;
+}
+
+h3 {
+    font-size: 22px;
+}
+
+h4 {
+    font-size: 18px;
+}
+
 button {
     width: 100%;
     border: none;
@@ -55,7 +68,7 @@ button {
 /* header */
 
 .header {
-    height: 12rem;
+    height: 10rem;
     text-align: center;
     /* border: 1px solid red; */
 }
@@ -64,7 +77,23 @@ button {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-top: 2rem;
+    padding-top: .5rem;
+    /* border: 1px solid red; */
+}
+
+.header-title {
+    display: inline-flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.header-title img {
+    margin-left: -1.5rem;
+}
+
+.todays-date {
+    justify-content: flex-end;
+    float: right;
 }
 
 /* main */
@@ -76,14 +105,17 @@ button {
 }
 
 .weather-top {
-
-    margin: 2rem;
+    margin: 0 auto;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    /* border: 1px solid red; */
 
 }
 
 .viewer {
     background-color: #fff;
     color: #333333;
+    border-radius: 1rem;
 }
 
 .weather-search {
@@ -97,6 +129,14 @@ button {
     justify-content: space-between;
     align-items: center;
     margin-top: -1rem;
+}
+
+.description {
+    margin-top: -2rem;
+}
+
+.current {
+    margin-top: 1rem;
 }
 
 

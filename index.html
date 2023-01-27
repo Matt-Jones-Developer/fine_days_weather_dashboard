@@ -15,8 +15,10 @@
 <body>
   <header class="container-fluid text-center text-white bg-dark p-2 header">
     <div class="container">
-      <div class="header-icon"><img src="./assets/images/icons/01d.png"></div>
-      <h1>Weather Dashboard</h1>
+      <div class="header-title">
+        <img src="./assets/images/icons/01d.png">
+        <h1>Weather Dashboard</h1>
+      </div>
       <div class="todays-date">
         <h3 id="date"></h3>
         <h4 id="time"></h4>
@@ -26,38 +28,42 @@
 
   <!-- max-width for ultra wide resolutions -->
   <div class="container-fluid weather-top" style="max-width: 1400px">
-    <div class="row top-flex">
-      <aside class="col-lg-3 pb-3">
-        <h2 id="form-heading" class="mt-1 h3 form-label">
-          Search for a City:
-        </h2>
-        <form id="search-form" class="form">
-          <div class="form-inline form-group">
-            <div class="input-group">
-              <input class="form-input weather-search" type="text" id="search-input" placeholder="London"
-                aria-labelledby="form-heading" aria-controls="today forecast">
-              <div class="input-group-append">
-                <button type="submit" class="btn search-button btn-primary" id="search-button" aria-label="submit search">
-                  Search
-                </button>
-                <hr class="hr weather-hr">
+    <div class="container">
+      <div class="row top-flex">
+        <aside class="col-lg-3 pb-3">
+          <h2 id="form-heading" class="mt-1 h3 form-label">
+            Search for a City:
+          </h2>
+          <form id="search-form" class="form">
+            <div class="form-inline form-group">
+              <div class="input-group">
+                <input class="form-input weather-search" type="text" id="search-input" placeholder="London"
+                  aria-labelledby="form-heading" aria-controls="today forecast">
+                <div class="input-group-append">
+                  <button type="submit" class="btn search-button btn-primary" id="search-button"
+                    aria-label="submit search">
+                    Search
+                  </button>
+                  <hr class="hr weather-hr">
+                </div>
               </div>
             </div>
-          </div>
-        </form>
-        <div class="list-group" id="history"></div>
-      </aside>
+          </form>
+          <div class="list-group" id="history"></div>
+        </aside>
 
-      <div class="col-lg-9 pb-3 viewer">
-        <section id="today" class="mt-3" role="region" aria-live="polite"></section>
-        <section id="forecast" class="row mt-3 current-top" role="region" aria-live="polite">
-          <div class="container">
-            <div class="city-name"></div>
-            <!-- generated icon here set to ''-->
-            <div class="weather-icon"><img src="./assets/images/icons/unknown.png"></div>
-          </div>
-          <div class="current"></div>
-        </section>
+        <div class="col-lg-9 pb-3 viewer">
+          <section id="today" class="mt-3" role="region" aria-live="polite"></section>
+          <section id="forecast" class="row mt-3 current-top" role="region" aria-live="polite">
+            <div class="container">
+              <div class="city-name"></div>
+              <!-- generated icon here set to ''-->
+              <div class="weather-icon"><img src="./assets/images/icons/unknown.png"></div>
+            </div>
+            <div class="description"></div>
+            <div class="current"></div>
+          </section>
+        </div>
       </div>
     </div>
   </div>

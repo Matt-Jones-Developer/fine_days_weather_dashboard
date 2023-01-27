@@ -144,7 +144,9 @@ MVP FIRST.
 // how can we fill that ugly gap between the 'daily forecast' white space and the 'full screen width' required by the 5-day??
 
 
+// current issues (to solve):::
 
+-> clear previous data when user types in another city
 
 
 
