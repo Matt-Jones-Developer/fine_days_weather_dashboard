@@ -192,7 +192,7 @@ $('#search-button').on('click', function (event) {
                         // $('#weather-icon').attr('src', iconUrl);
 
                         weatherIcon.innerHTML = `
-                        <img src="./assets/images/openweathermap-api-icons/icons/${icon}.png">`;
+                        <img src="./assets/images/icons/${icon}.png">`;
                         
                     
                     }
