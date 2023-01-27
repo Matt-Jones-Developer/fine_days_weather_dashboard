@@ -82,3 +82,7 @@ body {
     font-size: 38px;
 
 }
+
+.weather-icon {
+    float: right;
+}
