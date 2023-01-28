@@ -105,8 +105,8 @@ MVP FIRST.
             // temperature (data.temp?)
             // wind speed (data.wind.speed?)
             // humidity (data.humidity) 
-            // description (data.description) indexed?
-            // icon (if available) data.location.icon
+            // description (data.description)
+            // icon (if available) data.icon
 
     4. currentWeather function
         // fetch city 
@@ -147,6 +147,10 @@ MVP FIRST.
 // current issues (to solve):::
 
 -> clear previous data when user types in another city
+-> clear previous 5-day forecast cards and title when re-entering a city!
+-> save to local storage and persist data!
+-> when user clicks a historyButton -> retrieve that data-name and value from localStorage
+-> when user presses 'clear history' the buttons disappear
 
 
 

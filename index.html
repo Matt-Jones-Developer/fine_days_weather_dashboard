@@ -30,7 +30,7 @@
   <div class="container-fluid weather-top" style="max-width: 1400px">
     <div class="container">
       <div class="row top-flex">
-        <aside class="col-lg-3 pb-3">
+        <aside class="col-lg-3 pb-3" id="aside">
           <h2 id="form-heading" class="mt-1 h3 form-label">
             Search for a City:
           </h2>
@@ -45,6 +45,15 @@
                     Search
                   </button>
                   <hr class="hr weather-hr">
+                  <h2>Previous searches:</h2>
+                  <div class="buttons-pane">
+                    <!-- generate buttons -->
+                    <!-- previous history h2 -->
+                    <!-- city saved to a new button -->
+                    <!-- button clicked -> re-calls the local storage -->
+                    <!-- the 'clear history' button -->
+                  </div>
+                  <button type="reset" class="btn clear-button btn-danger" id="clear-btn">Clear history</button>
                 </div>
               </div>
             </div>
@@ -69,51 +78,50 @@
   </div>
   <!-- 5-day forecast gen -->
   <div class="weather-bottom">
-    <h1>Five Day Forecast</h1>
-    <div id="forecast-container">
+    <div class="forecast-5">
     </div>
     <!-- the 5-day forecasts -->
-    <!-- <section class="five-day-cards forecast-5">
-      <h1>Five Day Forecast</h1>
-      <br>
-      <div class="container">
-        <div class="card-container col-lg-2 col-md-12 col-sm-12">
-          <div class="card bg-dark custom-card-img">
-            <div class="card-body img-card day-1">
-              <h2>Day-1</h2>
-            </div>
-          </div>
-        </div>
-        <div class="card-container col-lg-2 col-md-12 col-sm-12">
-          <div class="card bg-dark custom-card-img">
-            <div class="card-body img-card day-2">
-              <h2>Day-2</h2>
-            </div>
-          </div>
-        </div>
-        <div class="card-container col-lg-2 col-md-12 col-sm-12">
-          <div class="card bg-dark custom-card-img">
-            <div class="card-body img-card day-3">
-              <h2>Day-3</h2>
-            </div>
-          </div>
-        <div class="card-container col-lg-2 col-md-12 col-sm-12">
-          <div class="card bg-dark custom-card-img">
-            <div class="card-body img-card day-4">
-              <h2>Day-4</h2>
-            </div>
-          </div>
-        </div>
-        <div class="card-container col-lg-2 col-md-12 col-sm-12">
-          <div class="card bg-dark custom-card-img">
-            <div class="card-body img-card day-5">
-              <h2>Day-5</h2>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section> -->
   </div>
+    <!-- footer -->
+    <footer class="footer">
+      <!-- footer icons -->
+      <div class="footer-icons">
+          <ul class="ul-icons">
+              <li>
+                  <a href="mailto:glitchyghost@gmail.com">
+                      <img src="./assets/images/icons/icn_mail_wht.svg" width="24px" height="24px" alt="mail-icn">
+                  </a>
+              </li>
+              <li>
+                  <a href="https://github.com/Matt-Jones-Developer" class="git-icn">
+                      <img src="./assets/images/icons/github_icn_wht.svg" width="24px" height="24px" alt="github-icn">
+                  </a>
+              </li>
+              <li>
+                  <a href="https://glitchygames.slack.com">
+                      <img src="./assets/images/icons/slack_color.svg" width="24px" height="24px" alt="slack-icn">
+                  </a>
+              </li>
+              <li>
+                  <a href="https://twitter.com/glitchy81_dev">
+                      <img src="./assets/images/icons/icn_twitter_wht.svg"width="24px" height="24px" alt="twitter-icn">
+                  </a>
+              </li>
+              <li><a href="https://www.linkedin.com/in/matt-jones-zx81/">
+                  <img src="./assets/images/icons/icn_linkedin.svg" width="24px" height="24px" alt="linkedin-icn">
+              </a>
+              </li>
+          </ul>
+      </div>
+      <!-- footer footer -->
+      <div class="footer-text">
+          <p>
+              Designed & <code style="color:#A0FCD6;">coded</code> with <strong>love</strong>
+              by <a href="https://github.com/Matt-Jones-Developer">Matt Jones</a>. &copy; 2023. All rights reserved.
+          </p>
+          <br>
+      </div>
+  </footer>
 
   <!-- Moment.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>

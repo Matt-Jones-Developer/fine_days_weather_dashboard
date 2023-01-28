@@ -12,10 +12,15 @@ let description = document.querySelector('.description')
 let current = document.querySelector('.current')
 let history = document.querySelector('#history')
 console.log(history)
+let weatherBottom = document.querySelector('.weather-bottom')
+let buttonsPane = document.querySelector('.buttons-pane')
 
 const apiKey = '8d752016daf18245563fe658805d4425';
 
-// moment day and time 
+// push to the array every time a city is 'searched' via the 'search-button'
+let historyArray = [];
+
+// set moment for todays date 
 let today = moment()
 console.log(today) // object
 let currentDate = moment().format('[Today is] dddd, Do MMMM');
@@ -24,7 +29,7 @@ console.log(currentDate)
 let dateTag = document.querySelector('#date');
 dateTag.append(currentDate)
 
-// how to put a setInterval into it's own function ?
+// get the time and update it every second
 
 setInterval(function () {
 
@@ -35,7 +40,6 @@ setInterval(function () {
     // specify every second to update
 }, 1000)
 
-// 
 
 // getWeatherForecast()
 
@@ -54,7 +58,13 @@ $('#search-button').on('click', function (event) {
     // grab the text from input box
     let location = $('#search-input').val();
 
-    // by city name (search entry) must be the GEO endpoint ??
+    // push the city to the historyArray
+    historyArray.push(location); // .capitalize() ??
+
+    // call renderHistoryButtons
+    renderHistoryButtons()
+
+    // by city name (search entry) must be the GEO endpoint; No, mine works!
     // let queryURL = `https://api.openweathermap.org/geo/1.0/direct?q=${data}&limit=5&appid=${apiKey}&cnt=5`
     let queryURL = `https://api.openweathermap.org/data/2.5/forecast?q=${location}&limit=5&appid=${apiKey}`
     console.log(queryURL)
@@ -93,90 +103,84 @@ $('#search-button').on('click', function (event) {
             cityName.appendChild(cityTitle)
             // current.appendChild(cityCoords)
 
-            // save to local storage 
-
             // fetch 5-day forecast here
             console.log(data.list[0])
-            console.log(data.list[0].dt_txt) // grabs the current day 
-            // slap list in a var
-            let dayList = data.list
-            let fiveDayEl = document.getElementsByClassName("forecast-5");
+            console.log(data.list[0].dt_txt) // grabs the current day only 
 
-            // // call test
-            // getFiveDayForecast()
-            // // loop through each day
-            // function getFiveDayForecast(city) {
-            //     // fetch? required here?
-            //     let forecast5 = []
-            //     // let dayList = data.list
-            //     // iterate through each day
-            //     for (let i = 0; i < data.list.length; i++) {
-            //         const element = data.list[i];
-
-            //         console.log(element)
-
-            //     }
-            // }
+            const fiveDayTitle = document.createElement("h1");
+            fiveDayTitle.textContent = 'Five Day Forecast';
+            weatherBottom.prepend(fiveDayTitle);
 
             const forecastList = data.list;
-            const forecastContainer = document.getElementById("forecast-container");
-            forecastContainer.classList.add("d-inline-flex");
+            const forecast5Container = document.querySelector(".forecast-5");
+            forecast5Container.classList.add("d-inline-flex");
+
+            // iterate through every dt time stamp, skipping stamps by 8 each pass
 
             for (let i = 0; i < forecastList.length; i += 8) {
                 const forecast = forecastList[i];
+                console.log('this days forecast stamp:', forecast)
+                let fiveDayIcon = forecast.weather[0].icon;
+                console.log('fiveDayIcon fetch:', fiveDayIcon)
                 const card = document.createElement("div");
-                card.classList.add("card", "text-white", "bg-dark", "m-3");
+                card.classList.add("card", "bg-dark", "m-3", "justify-content-center");
+                card.style.padding = '1rem';
 
                 const cardBody = document.createElement("div");
                 cardBody.classList.add("card-body");
 
                 const title = document.createElement("h5");
                 title.classList.add("card-title");
-                title.textContent = forecast.dt_txt;
+                // convert dt_txt via moment 
+                let fiveDayDate = forecast.dt_txt
+                // let formattedDate = fiveDayDate.format('Do MM')
+                let formattedDate = moment(fiveDayDate).format('dddd Do MMMM');
+                // title.textContent = forecast.dt_txt; // must be formatted using moment
+                title.textContent = formattedDate;
 
                 const temp = document.createElement("p");
                 temp.classList.add("card-text");
-                temp.textContent = `Temperature: ${forecast.main.temp} C`;
+                // convert that days temperature to Celsius?
+
+                temp.textContent = `Temperature: ${forecast.main.temp} C`; // kelvin!! needs processing through temp converter function
 
                 const weather = document.createElement("p");
                 weather.classList.add("card-text");
                 weather.textContent = `Weather: ${forecast.weather[0].description}`;
 
-                // Create an image element for the weather icon
+                // add image element for the icon
                 const icon = document.createElement("img");
-                icon.classList.add("card-img-top");
-                // Set the src of the image element to the icon url
-                icon.src = `http://openweathermap.org/img/wn/${forecast.weather[0].icon}@2x.png`;
-                icon.style.width = "70px";
-                icon.style.height = "70px";
+                icon.classList.add("card-img-top", "text-center");
+                // as an alternative to grabbing the icons from my folder (might swap these out I think)
+                icon.src = `https://openweathermap.org/img/wn/${fiveDayIcon}@2x.png`;
+                // or via my own image files
+                // icon.src =`./assets/images/icons/${fiveDayIcon}.png`; // fail!
+                icon.style.width = "100px";
+                icon.style.height = "100px";
+                icon.style.borderRadius = '1rem';
+                icon.style.margin = '2rem';
 
-                // Append the image element to the card
+                // if 01n or 10n (sun?) color them orange?
+                if (fiveDayIcon) {
+                    icon.style.backgroundColor = 'orange';
+                }
+
+                // why cant we center the icon?? 
+                // NOTHING WILL CENTER THESE!! hahahaha
+                // icon.style.border = '1px solid red';
+
+                // append elements to the card
                 card.appendChild(icon);
                 cardBody.appendChild(title);
                 cardBody.appendChild(temp);
                 cardBody.appendChild(weather);
-
                 card.appendChild(cardBody);
-                forecastContainer.appendChild(card);
+                forecast5Container.appendChild(card);
             }
 
 
-
-
-
-            // let fiveDayCards = $("<h1>")
-            // console.log(cityTag) // shows a div 
-            // // set content 
-            // cityTag.textContent = city; // adds city
-            // // append it to the page
-            // cityTag.append(`<tr>
-            //                 <td> ${city}</td>
-            //                 <td> ${country}</td>
-            //                 </tr>`)            
-
-
             // call getWeather
-            getWeather(lat, lon);
+            getCurrentWeather(lat, lon);
 
             // YOU DO NOT WANT TO NEST THESE - PLACE ALL IN THEIR OWN FUNCTIONS 
 
@@ -187,7 +191,7 @@ $('#search-button').on('click', function (event) {
             // console.log(temp)
             // obvs weather doesn;t exist within this object
             // so how do we access the weather stats required??
-            function getWeather(lat, lon) {
+            function getCurrentWeather(lat, lon) {
                 // tap into weather using lat & lon
                 $.ajax({
                     url: 'https://api.openweathermap.org/data/2.5/weather',
@@ -299,6 +303,15 @@ $('#search-button').on('click', function (event) {
             }
 
 
+            // if user presses button AGAIN (once values are generated to the page)
+            // clear previous
+            // if (cityName !== null || '') {
+
+            //     // clear previous search?
+            //     $('.viewer').empty(); 
+            // } 
+
+
 
             ///
             // let jsonData = JSON.parse(data);
@@ -341,81 +354,75 @@ $('#search-button').on('click', function (event) {
 })
 
 
-// access an object array element?
+// the buttons! (on click of searchBtn)
+
+// do we have to use local storage to store the entire data for that searched city?\
+// or can we simply re-call the api when the button pressed??
+
+// we need them to:
+
+// 1. upon user clicking 'seacrh button'
+// create a new button
+// assign the city entered to its label (textContent)
+// save the cities data to local storage (using key/value) 
+// key is the button ID and value is the weather data
+
+// 2. when user clicks that button
+// clear the current weather-view div (prior search)
+// pull the key/value from local and generate it to the 'weather-view' div
+// call the 5-day function to generate that data for the city
+
+// 3. add a remove button (all buttons are PREPENDED above this history button)
+// when user clicks 'clear history' -> 
+// clear all local storage 
+// clear and delete all the buttons 
 
 
-// how to retrieve weather information from opendatamap.org
-// if (navigator.geodata) {
-//     //Return the user's longitude and latitude on page load using HTML5 geodata API
-//     window.onload = function () {
-//         navigator.geodata.getCurrentPosition(getCurrentdata);
+// this should be getWeatherData() TODO
+function addToSearchHistory() {
+    // declare the city
+    let city = $(this).attr('data-name');
+    let queryURL = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&limit=5&appid=${apiKey}`
 
-//     }
-
-// }
+    // call the API (OR recall from localStorage PROBABLY)
 
 
-// function getCurrentdata(position) {
+}
 
-//     latitude = position.coords.latitude;
-//     longitude = position.coords.longitude;
+// render new history buttons
 
-//     console.log(latitude);
-//     console.log(longitude);
+function renderHistoryButtons() {
 
-//     $.getJSON("http://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude + "&APPID=b7aaa3a349294d5706002e82df3de1ea&units=metric", function (data) {
-//         console.log(data);
-//         console.log(weather.main.temp);
-//         $(".city").append(name + " ");
-//         $(".temperature").append(temp + " ");
-//         $(".weatherdescription").append(field + " ");
-//     })
+    // delete prior searches?? do we want this here? 
+    // not until we set to 'clear history button'
+    $('.buttons-pane').empty();
 
-// };
+    // loop through array items
+    for (let i = 0; i < historyArray.length; i++) {
 
+        // generate buttons from array
+        let newBtn = document.createElement('button');
+        // why do we have to do the Jquery way here~??
+        // let newBtn = $('<button>');
+        // add a class to it
+        // newBtn.addClass('searched-city');
+        // make it a bootstrap button
+        newBtn.classList.add('btn', 'btn-secondary', 'searched-city');
+        // add a data-attribute 
+        // newBtn.attr('data-name', historyArray[i]);
+        newBtn.setAttribute('data-name', historyArray[i])
+        // style it
+        // newBtn.attr('style', 'background-color: orange')
+        newBtn.style.backgroundColor = 'orange';
+        newBtn.style.borderRadius = '1rem';
+        // add the city as the button text
+        newBtn.textContent = historyArray[i];
+        // append the button to the aside
+        buttonsPane.appendChild(newBtn) // this is not Jquery
+        // $('.buttons-pane').append(newBtn)
 
-
-// interpolate a queryURL
-// let myname = "test"
-// window.open("http://example.com/?q=" + myname); // Classic string concatenation
-// window.open(`http://example.com/?q=${myname}`); // Using template literal 
-
-
-// write a function that fetches a 5-day forecast from openweatherapp.org api?
-// var key = "YOUR KEY";
-// var city = "YOUR CITY"; // My test case was "London"
-// var url = "https://api.openweathermap.org/data/2.5/forecast";
-
-// $.ajax({
-//   url: url, //API Call
-//   dataType: "json",
-//   type: "GET",
-//   data: {
-//     q: city,
-//     appid: key,
-//     units: "metric",
-//     cnt: "10"
-//   },
-//   success: function(data) {
-//     console.log('Received data:', data) // For testing
-//     var wf = "";
-//     wf += "<h2>" + data.city.name + "</h2>"; // City (displays once)
-//     $.each(data.list, function(index, val) {
-//       wf += "<p>" // Opening paragraph tag
-//       wf += "<b>Day " + index + "</b>: " // Day
-//       wf += val.main.temp + "&degC" // Temperature
-//       wf += "<span> | " + val.weather[0].description + "</span>"; // Description
-//       wf += "<img src='https://openweathermap.org/img/w/" + val.weather[0].icon + ".png'>" // Icon
-//       wf += "</p>" // Closing paragraph tag
-//     });
-//     $("#showWeatherForcast").html(wf);
-//   }
-// });
-
-
-
-
-// //Source: https://stackoverflow.com/questions/49640174
+    }
+}
 
 
 

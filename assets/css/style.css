@@ -26,6 +26,7 @@
     margin: 0;
     padding: 0;
     scroll-behavior: smooth;
+    /* border: 1px dashed red; */
 }
 
 body {
@@ -62,6 +63,30 @@ button {
     margin: 1rem;
     margin-left: 0;
 }
+
+ul {
+    padding-top: 1rem;
+    padding-left: 1.5rem;
+}
+
+ul>li {
+    list-style-type: none;
+    display: inline-flex;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+    margin-right: 1rem;
+}
+
+a {
+    text-decoration: none;
+    color: var(--light);
+}
+
+a:hover {
+    color: var(--highlight);
+}
+
 
 /* flex container */
 
@@ -186,6 +211,7 @@ button {
     padding: 2rem;
     /* border: 1px solid lightgreen; */
     text-align: center;
+    width: 100vw;
 }
 
 .five-day-cards {
@@ -195,7 +221,7 @@ button {
     /* border: 1px solid red; */
 }
 
-.weather-bottom #forecast-container {
+.weather-bottom #forecast-5 {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -203,6 +229,35 @@ button {
 }
 
 .card {
-    width: 200px;
-    height: 300px;
+    width: 300px;
+    height: 350px;
+    text-align: center
+}
+
+/* #aside {
+    height: 30vh;
+} */
+
+/* footer */
+
+.footer {
+    background-color: #333333;
+    margin-top: 32vh;
+    height: 8rem;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 700;
+    padding-top: 1rem;
+    /* border: 1px dashed red; */
+}
+
+.footer strong {
+    color: var(--peachier);
+    font-family: monospace;
+    font-size: 18px;
+}
+
+.footer-text {
+    color: var(--light);
+    padding: 0px 0px;
 }
