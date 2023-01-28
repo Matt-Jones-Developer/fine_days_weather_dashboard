@@ -210,6 +210,22 @@ input[type=text] {
     float: right;
 }
 
+.pulse {
+    animation: pulse 3s infinite;
+  }
+  
+  @keyframes pulse {
+    0% {
+      font-variation-settings: 'wght' 100;
+    }
+    50% {
+      font-variation-settings: 'wght' 700;
+    }
+    100% {
+      font-variation-settings: 'wght' 100;
+    }
+  }
+
 .material-icons:before {
     position: absolute;
     content: "\E84E";

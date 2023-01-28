@@ -140,7 +140,7 @@ $('#search-button').on('click', function (event) {
                 title.textContent = formattedDate;
 
                 const temp = document.createElement("p");
-                temp.classList.add("card-text");
+                temp.classList.add("card-text","pulse");
                 // convert that days temperature to Celsius
                 // Celsius = (Kelvin – 273.15)
                 let forecast5Cels = parseFloat(forecast.main.temp) - 273.15;
@@ -263,6 +263,7 @@ $('#search-button').on('click', function (event) {
                         cityTempF.textContent = `For you American folk, that's: ${fahr} °F`;
                         // generate google icon
                         tempIcon = document.createElement('span')
+                        tempIcon.classList.add('pulse')
                         tempIcon.classList.add('material-symbols-outlined');
                         tempIcon.textContent = 'thermostat';
                         // append to page 
@@ -277,6 +278,7 @@ $('#search-button').on('click', function (event) {
                         humidity.textContent = `Current humidity is ${hum}%`
                         // generate google icon
                         humIcon = document.createElement('span')
+                        humIcon.classList.add('pulse')
                         humIcon.classList.add('material-symbols-outlined');
                         humIcon.textContent = 'humidity_percentage';
                         current.append(humIcon,humidity)
@@ -291,6 +293,7 @@ $('#search-button').on('click', function (event) {
 
                         // google air icon
                         airIcon = document.createElement('span')
+                        airIcon.classList.add('pulse')
                         airIcon.classList.add('material-symbols-outlined');
                         airIcon.textContent = 'air';
                         current.appendChild(airIcon)
