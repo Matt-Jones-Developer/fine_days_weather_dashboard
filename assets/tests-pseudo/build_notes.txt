@@ -18,7 +18,7 @@ MVP FIRST.
 
         // adding textContent to elements 
         // appending them to elements 
-        // storing them (persistently)
+        // storing them (persistently) are we storing entire data or just the id for the city button?
 
     // A good looking UI:
 
@@ -151,6 +151,11 @@ MVP FIRST.
 -> save to local storage and persist data!
 -> when user clicks a historyButton -> retrieve that data-name and value from localStorage
 -> when user presses 'clear history' the buttons disappear
+
+
+*IMPORTANT* !! 
+-> IF user types in garbage -> filter/notify (like the password generator!)
+-> IF user enters NOTHING and hits search (no button should be created)
 
 
 

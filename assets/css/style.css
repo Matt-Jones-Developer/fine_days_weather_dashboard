@@ -87,6 +87,11 @@ a:hover {
     color: var(--highlight);
 }
 
+input[type=text] {
+    text-transform: capitalize;
+}
+
+
 
 /* flex container */
 
@@ -205,6 +210,30 @@ a:hover {
     float: right;
 }
 
+.material-icons:before {
+    position: absolute;
+    content: "\E84E";
+    color: #882288;
+    font-size: 2.4rem;
+}
+
+.material-icons {
+    font-family: 'Material Icons';
+    font-size: 28px;
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: 'liga';
+}
+
 .weather-bottom {
     margin-top: -2rem;
     padding-top: 0;
@@ -234,6 +263,10 @@ a:hover {
     text-align: center
 }
 
+.card img {
+    -webkit-font-smoothing: antialiased;
+}
+
 /* #aside {
     height: 30vh;
 } */
@@ -242,7 +275,7 @@ a:hover {
 
 .footer {
     background-color: #333333;
-    margin-top: 32vh;
+    margin-top: 4vh;
     height: 8rem;
     text-align: center;
     font-size: 18px;
@@ -260,4 +293,17 @@ a:hover {
 .footer-text {
     color: var(--light);
     padding: 0px 0px;
+}
+
+.footer-image img {
+    width: 440px;
+    height: 400px;
+
+}
+
+.footer-image .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
 }

@@ -108,6 +108,7 @@ $('#search-button').on('click', function (event) {
             console.log(data.list[0].dt_txt) // grabs the current day only 
 
             const fiveDayTitle = document.createElement("h1");
+            fiveDayTitle.style.padding = '1rem';
             fiveDayTitle.textContent = 'Five Day Forecast';
             weatherBottom.prepend(fiveDayTitle);
 
@@ -129,7 +130,7 @@ $('#search-button').on('click', function (event) {
                 const cardBody = document.createElement("div");
                 cardBody.classList.add("card-body");
 
-                const title = document.createElement("h5");
+                const title = document.createElement("h4");
                 title.classList.add("card-title");
                 // convert dt_txt via moment 
                 let fiveDayDate = forecast.dt_txt
@@ -140,9 +141,21 @@ $('#search-button').on('click', function (event) {
 
                 const temp = document.createElement("p");
                 temp.classList.add("card-text");
-                // convert that days temperature to Celsius?
+                // convert that days temperature to Celsius
+                // Celsius = (Kelvin – 273.15)
+                let forecast5Cels = parseFloat(forecast.main.temp) - 273.15;
+                console.log(forecast5Cels.toFixed(0))
+                forecast5Temp = forecast5Cels.toFixed(0);
+                temp.textContent = `Temperature: ${forecast5Temp} °C`; // kelvin!! needs processing through temp converter function
 
-                temp.textContent = `Temperature: ${forecast.main.temp} C`; // kelvin!! needs processing through temp converter function
+                // if temp is below 5 - change its colour
+                if (forecast5Temp <= 5) {
+                    temp.style.color = 'lightblue';
+                } else if (forecast5Temp <= 12) {
+                    temp.style.color = 'orange';
+                } else {
+                    temp.style.color = 'red';
+                }
 
                 const weather = document.createElement("p");
                 weather.classList.add("card-text");
@@ -158,7 +171,7 @@ $('#search-button').on('click', function (event) {
                 icon.style.width = "100px";
                 icon.style.height = "100px";
                 icon.style.borderRadius = '1rem';
-                icon.style.margin = '2rem';
+                icon.style.margin = '2rem auto';
 
                 // if 01n or 10n (sun?) color them orange?
                 if (fiveDayIcon) {
@@ -233,7 +246,11 @@ $('#search-button').on('click', function (event) {
                         console.log(data["main"]["feels_like"]) // ok
                         let feels = data["main"]["feels_like"]
                         let feelsLike = document.createElement('h4');
-                        feelsLike.textContent = `Feels like ${feels} F`;
+                        // feelsLike.textContent = `Feels like ${feels} F`;
+                        // convert it to Celsius
+                        getFeelsCels = (parseFloat(feels) - 32) * 5 / 9;
+                        feelsLikeCels = getFeelsCels.toFixed(0);
+                        feelsLike.textContent = `Feels like ${feelsLikeCels} °C`;
                         description.appendChild(feelsLike)
 
                         // getWeather(lat, lon);
@@ -241,20 +258,29 @@ $('#search-button').on('click', function (event) {
                         let cityTemp = document.createElement('h3');
                         cityTemp.textContent = `The current temperature is: ${cels} °C`;
                         // for American folks!
+                        // TODO: offer a switch toggle here to select which gets displayed
                         let cityTempF = document.createElement('h3');
                         cityTempF.textContent = `For you American folk, that's: ${fahr} °F`;
+                        // generate google icon
+                        tempIcon = document.createElement('span')
+                        tempIcon.classList.add('material-symbols-outlined');
+                        tempIcon.textContent = 'thermostat';
                         // append to page 
-                        current.appendChild(cityTemp)
-                        current.appendChild(cityTempF)
-
-
+                        current.append(tempIcon, cityTemp)
+                        // current.appendChild(cityTemp)
+                        // current.appendChild(cityTempF)
 
                         // log humidity
                         console.log(data["main"]["humidity"] + '%')
                         let hum = data["main"]["humidity"];
                         let humidity = document.createElement('h4');
                         humidity.textContent = `Current humidity is ${hum}%`
-                        current.appendChild(humidity)
+                        // generate google icon
+                        humIcon = document.createElement('span')
+                        humIcon.classList.add('material-symbols-outlined');
+                        humIcon.textContent = 'humidity_percentage';
+                        current.append(humIcon,humidity)
+                        // current.appendChild(humidity)
 
                         // windspeed
                         console.log(data.wind.speed)
@@ -263,6 +289,11 @@ $('#search-button').on('click', function (event) {
                         windSpeed.textContent = `Wind speed is currently ${wind} KPH`
                         // current.appendChild(windSpeed)
 
+                        // google air icon
+                        airIcon = document.createElement('span')
+                        airIcon.classList.add('material-symbols-outlined');
+                        airIcon.textContent = 'air';
+                        current.appendChild(airIcon)
                         // get MPH: KPH / 1.609344 = MPH
 
                         let mph = parseFloat(wind) / 1.609344
@@ -399,7 +430,10 @@ function renderHistoryButtons() {
 
     // loop through array items
     for (let i = 0; i < historyArray.length; i++) {
-
+        // capitalise title
+        let btnLabel = historyArray[i];
+        // let capBtnLabel = btnLabel.capitalize();
+        // console.log(capBtnLabel)
         // generate buttons from array
         let newBtn = document.createElement('button');
         // why do we have to do the Jquery way here~??
@@ -415,6 +449,7 @@ function renderHistoryButtons() {
         // newBtn.attr('style', 'background-color: orange')
         newBtn.style.backgroundColor = 'orange';
         newBtn.style.borderRadius = '1rem';
+        newBtn.style.textTransform = 'capitalize';
         // add the city as the button text
         newBtn.textContent = historyArray[i];
         // append the button to the aside
