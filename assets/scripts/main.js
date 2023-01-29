@@ -224,37 +224,41 @@ function fetchData(location) {
             // console.log(lat, lon) // OK
 
             // if elements are NOT empty - empty them first
-            if (location.value === '') {
-                $('.viewer').empty()
-                console.log('history > 0; viewer emptied')
-            }
+            // if (location.value === '') {
+            //     $('.viewer').empty()
+            //     console.log('history > 0; viewer emptied')
+            // }
 
-            else {
-                // create
-                let cityTitle = document.createElement('h1');
-                // let cityCoords = document.createElement('h3');
+            // else {
 
-                // set its content
-                cityTitle.textContent = `${city}, ${country}`;
-                // cityCoords.textContent = `Lat: ${lat}, Lon: ${lon}`;
+            // create
+            let cityTitle = document.createElement('h1');
+            // let cityCoords = document.createElement('h3');
 
-                // set data-name 
-                cityTitle.setAttribute('data-name', location)
-                console.log('cityTitle data- added:', cityTitle.getAttribute('data-name'))
+            // clear prior values
+            cityName.innerHTML = '';
 
-                // append the style 
-                cityTitle.setAttribute("style", "color: orange", "fontWeight: bolder")
+            // set its content
+            cityTitle.textContent = `${city}, ${country}`;
+            // cityCoords.textContent = `Lat: ${lat}, Lon: ${lon}`;
 
-                // put on the page (append)
-                cityName.appendChild(cityTitle)
-                // current.appendChild(cityCoords)
+            // set data-name 
+            cityTitle.setAttribute('data-name', location)
+            console.log('cityTitle data- added:', cityTitle.getAttribute('data-name'))
 
-                // call getWeather
-                getCurrentWeather(lat, lon);
+            // append the style 
+            cityTitle.setAttribute("style", "color: orange", "fontWeight: bolder")
 
-                // 5-day forecast from here??
-                fiveDayForecast(data)
-            }
+            // put on the page (append)
+            cityName.appendChild(cityTitle)
+            // current.appendChild(cityCoords)
+
+            // call getWeather
+            getCurrentWeather(lat, lon);
+
+            // 5-day forecast from here??
+            fiveDayForecast(data)
+            // }
 
 
             // catch garbage 
@@ -316,6 +320,9 @@ function getCurrentWeather(lat, lon) {
             let desc = data.weather[0].description;
             // console.log(desc)
 
+            // clear prior values
+            description.innerHTML = '';
+
             let cityDescription = document.createElement('h2');
             cityDescription.textContent = `The forecast for ${city} is ${desc}.`
             description.appendChild(cityDescription)
@@ -344,6 +351,9 @@ function getCurrentWeather(lat, lon) {
             tempIcon.classList.add('pulse')
             tempIcon.classList.add('material-symbols-outlined');
             tempIcon.textContent = 'thermostat';
+
+            // clear prior values
+            current.innerHTML = '';
             // append to page 
             current.append(tempIcon, cityTemp)
             // current.appendChild(cityTemp)
