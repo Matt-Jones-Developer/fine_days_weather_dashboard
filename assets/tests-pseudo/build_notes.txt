@@ -34,7 +34,7 @@ MVP FIRST.
     // DATA FIRST! What is required?
 
         1. fetch city 
-        1b: fetch local date and time
+        1b: fetch 'local' date and time [todo!]
 
         2. fetch current weather for entered city
             2b: data includes:
@@ -43,7 +43,24 @@ MVP FIRST.
                 3. Humidity (%)
                 4. icon (or equivalent summary info to set the correct icon)
 
-        3. 5-day API forecast 
+        3. 5-day API forecast - fully dynamic
+		1. Icon
+		2. Weather
+		3. Temp
+		4. Humidity
+
+
+	4. LOCAL STORAGE:
+		// persist:
+		1. The buttons and city/location labels
+		2. The key/value (data-name + API data that was received)
+		
+		// IF user presses 'clear history' button; clear ALL
+
+		// ISSUES:
+		1. User selects another city and searches: the last search MUST be cleared before re-rendering 
+			// condition: IF array === '' { // grab api and render elements 
+					// else (array has data) -> .remove() or clear = '' FIRST, then re-render()
 
 
     // testing:  

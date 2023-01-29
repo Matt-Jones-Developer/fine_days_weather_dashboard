@@ -19,6 +19,7 @@ const apiKey = '8d752016daf18245563fe658805d4425';
 
 // push to the array every time a city is 'searched' via the 'search-button'
 let historyArray = [];
+console.log(historyArray)
 
 // set moment for todays date 
 let today = moment()
@@ -51,15 +52,38 @@ setInterval(function () {
 // }
 
 
-$('#search-button').on('click', function (event) {
 
+
+// issue solve: if array !HAS value; else: clear content 
+// need to re-organise this god awful mess into functions NOW!!
+
+
+// kill Jquery
+
+searchBtn.addEventListener("click", function (event) {
+    //     $('#search-button').on('click', function (event) {
+
+    // compare if an array is empty
+    if (historyArray === undefined || historyArray.length == 0) {
+
+        console.log('historyArray is empty:', historyArray)
+    } else {
+        console.log('historyArray contains:', historyArray)
+    }
+    // make on click event occur only if condition met?
+
+    // prevent default browser behaviour
     event.preventDefault();
+
+    // clear viewer
+    // $('#forecast').empty();
 
     // grab the text from input box
     let location = $('#search-input').val();
 
     // push the city to the historyArray
     historyArray.push(location); // .capitalize() ??
+    console.log(historyArray)
 
     // call renderHistoryButtons
     renderHistoryButtons()
@@ -140,7 +164,7 @@ $('#search-button').on('click', function (event) {
                 title.textContent = formattedDate;
 
                 const temp = document.createElement("p");
-                temp.classList.add("card-text","pulse");
+                temp.classList.add("card-text", "pulse");
                 // convert that days temperature to Celsius
                 // Celsius = (Kelvin – 273.15)
                 let forecast5Cels = parseFloat(forecast.main.temp) - 273.15;
@@ -154,7 +178,7 @@ $('#search-button').on('click', function (event) {
                 } else if (forecast5Temp <= 12) {
                     temp.style.color = 'orange';
                 } else {
-                    temp.style.color = 'red';
+                    temp.style.color = '#D65745';
                 }
 
                 const weather = document.createElement("p");
@@ -231,7 +255,7 @@ $('#search-button').on('click', function (event) {
 
                         // fix decimals 
                         cels = getCels.toFixed(0); // OK
-                        fahr = fah.toFixed(1); // oddly, not ok??
+                        fahr = fah.toFixed(1); // oddly, not ok
 
                         // description
 
@@ -251,9 +275,13 @@ $('#search-button').on('click', function (event) {
                         getFeelsCels = (parseFloat(feels) - 32) * 5 / 9;
                         feelsLikeCels = getFeelsCels.toFixed(0);
                         feelsLike.textContent = `Feels like ${feelsLikeCels} °C`;
+                        feelsLike.style.paddingBottom = '.2rem';
                         description.appendChild(feelsLike)
 
                         // getWeather(lat, lon);
+
+                        // create separate divs to inline the 2 elements (icon and text)
+                        // why not simply add the icon as part of the h3? - text messes up
                         // add and append it below 
                         let cityTemp = document.createElement('h3');
                         cityTemp.textContent = `The current temperature is: ${cels} °C`;
@@ -276,12 +304,18 @@ $('#search-button').on('click', function (event) {
                         let hum = data["main"]["humidity"];
                         let humidity = document.createElement('h4');
                         humidity.textContent = `Current humidity is ${hum}%`
-                        // generate google icon
+                        
+                        // generate google icon HUMIDITY
+
+                        // IF humidity <= 33% (low icon)
+                        // else if humidity <= 66% (med icon)
+                        // else (high humidity icon)
+
                         humIcon = document.createElement('span')
                         humIcon.classList.add('pulse')
                         humIcon.classList.add('material-symbols-outlined');
                         humIcon.textContent = 'humidity_percentage';
-                        current.append(humIcon,humidity)
+                        current.append(humIcon, humidity)
                         // current.appendChild(humidity)
 
                         // windspeed
@@ -323,7 +357,7 @@ $('#search-button').on('click', function (event) {
                         // $('#weather-icon').attr('src', iconUrl);
 
                         weatherIcon.innerHTML = `
-                        <img src="./assets/images/icons/${icon}.png">`;
+                                    <img src="./assets/images/icons/${icon}.png">`;
 
                         // 5-day forecast from here??
 
@@ -386,6 +420,8 @@ $('#search-button').on('click', function (event) {
 
         })
 })
+
+
 
 
 // the buttons! (on click of searchBtn)

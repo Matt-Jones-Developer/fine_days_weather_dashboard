@@ -4,8 +4,9 @@
     // user types in a city name 
         !! must be:
             -> spelled correctly 
+            -> text-transform: capitalize
             -> must be text not a number 
-            -> must contains A-Z only 
+            -> must contains A-Z only or if unknown -> user feedback
             -> ignore 'null'
     
     // user hits button:
@@ -15,6 +16,12 @@
         // let queryURL (city and api interpolation)
         // fetch from queryURL
             // .then location => { // grab stuff }
+
+    // ISSUES:
+    1. User selects another city and searches: the last search MUST be cleared before re-rendering 
+        // condition: IF array === '' { // grab api and render elements 
+                // else (array has data) -> .remove() or clear = '' FIRST, then re-render()
+
 
 2. history buttons 
     // generate a new button for each searched city 

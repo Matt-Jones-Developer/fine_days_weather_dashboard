@@ -155,7 +155,7 @@ input[type=text] {
     border-radius: 1rem;
     padding-top: 0;
     padding: 1rem 2rem;
-    padding-bottom: 3rem;
+    padding-bottom: 0;
     /* border: 1px solid red; */
 }
 
@@ -165,13 +165,6 @@ input[type=text] {
     padding-bottom: 1.5rem;
 }
 
-
-.weather-search {
-    border: none;
-    height: 2rem;
-    padding: 1rem;
-}
-
 .current-top .container {
     display: flex;
     justify-content: space-between;
@@ -179,14 +172,30 @@ input[type=text] {
     margin-top: -1rem;
 }
 
+.city-icon {
+    height: 5rem;
+}
+
+.weather-icon {
+    margin-right: -.3rem;
+}
+
+
+.weather-search {
+    border: none;
+    height: 2rem;
+    padding: 1rem;
+}
+
 .description {
     display: inline-flex;
     justify-content: space-between;
-    /* margin-top: -1rem; */
+    margin-top: 1rem;
 }
 
 .current {
-    margin-top: 1rem;
+    display: block;
+    margin-top: 2rem;
 }
 
 
@@ -321,5 +330,5 @@ input[type=text] {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0 auto;
+    margin: -2rem auto;
 }
