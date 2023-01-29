@@ -18,6 +18,7 @@ let description = document.querySelector('.description')
 let current = document.querySelector('.current')
 let history = document.querySelector('#history')
 let weatherBottom = document.querySelector('.weather-bottom')
+let fiveDayLabel = document.querySelector('.five-day-heading')
 let buttonsPane = document.querySelector('.buttons-pane')
 let viewerPane = document.querySelector('.viewer')
 
@@ -426,8 +427,10 @@ function fiveDayForecast(data) {
 
     const fiveDayTitle = document.createElement("h1");
     fiveDayTitle.style.padding = '1rem';
+    // clear prior values
+    fiveDayLabel.innerHTML = '';
     fiveDayTitle.textContent = 'Five Day Forecast';
-    weatherBottom.prepend(fiveDayTitle);
+    fiveDayLabel.prepend(fiveDayTitle);
 
     const forecastList = data.list;
     const forecast5Container = document.querySelector(".forecast-5");
@@ -495,10 +498,11 @@ function fiveDayForecast(data) {
             icon.style.backgroundColor = 'orange';
         }
 
-        // why cant we center the icon?? 
-        // NOTHING WILL CENTER THESE!! hahahaha
-        // icon.style.border = '1px solid red';
+        // why cant we clear the cards??
 
+        // clear prior values
+        // cardBody.textContent = '';
+        // cardBody.innerHTML = '';
         // append elements to the card
         card.appendChild(icon);
         cardBody.appendChild(title);
