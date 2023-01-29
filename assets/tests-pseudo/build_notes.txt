@@ -172,7 +172,9 @@ MVP FIRST.
 
 *IMPORTANT* !! 
 -> IF user types in garbage -> filter/notify (like the password generator!)
--> IF user enters NOTHING and hits search (no button should be created)
+-> only partially done-> if user enters an unknown/garbage entry it will 404 and add the button to the list!! We want an alert "city not found" and not call renderButtons()
+
+-> [DONE] IF user enters NOTHING and hits search (no button should be created)
 
 
 

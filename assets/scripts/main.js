@@ -1,425 +1,505 @@
 // data widget app
 
+getDateTime()
+
 // globals
+
 const searchBtn = document.querySelector('.search-button')
-console.log(searchBtn)
+// console.log(searchBtn)
+
 const userInput = document.querySelector('#search-input')
-console.log(userInput)
+// console.log(userInput)
+
+const removeBtn = document.querySelector('#remove-btn')
 
 let cityName = document.querySelector('.city-name')
 let weatherIcon = document.querySelector('.weather-icon')
 let description = document.querySelector('.description')
 let current = document.querySelector('.current')
 let history = document.querySelector('#history')
-console.log(history)
 let weatherBottom = document.querySelector('.weather-bottom')
 let buttonsPane = document.querySelector('.buttons-pane')
+let viewerPane = document.querySelector('.viewer')
+
+const resetViewer = () => viewerPane.setContent = '';
 
 const apiKey = '8d752016daf18245563fe658805d4425';
 
-// push to the array every time a city is 'searched' via the 'search-button'
+// array to store history
 let historyArray = [];
-console.log(historyArray)
+console.log('history array is empty:', historyArray)
 
-// set moment for todays date 
-let today = moment()
-console.log(today) // object
-let currentDate = moment().format('[Today is] dddd, Do MMMM');
-console.log(currentDate)
-// append it to element 
-let dateTag = document.querySelector('#date');
-dateTag.append(currentDate)
+// function - set date and time 
+function getDateTime() {
+    // set moment for todays date 
+    let today = moment()
+    console.log(today) // object
+    // format date
+    let currentDate = moment().format('[Today is] dddd, Do MMMM');
+    console.log(currentDate)
+    // append it to element 
+    let dateTag = document.querySelector('#date');
+    dateTag.append(currentDate)
 
-// get the time and update it every second
-
-setInterval(function () {
-
-    let today = moment();
-
-    document.querySelector('#time').textContent =
-        today.format('[Current time (GMT):] HH:mm:ss')
-    // specify every second to update
-}, 1000)
-
-
-// getWeatherForecast()
-
-// async function getWeatherForecast() {
-//     const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${location}&appid=${apiKey}`);
-//     const data = await response.json();
-
-//     console.log(data);
-// }
+    // get the time and update it every second
+    setInterval(function () {
+        // how can this be improved? (shadowing?)
+        let today = moment();
+        // set time 
+        document.querySelector('#time').textContent =
+            today.format('[Current time (GMT):] HH:mm:ss')
+        // update every second
+    }, 1000)
+}
 
 
+// required functions - remember to RETURN at the front
 
+//[DONE] fetchData(data API) - creates an object of each data into readable
+// fetchWeatherForecast() OR split into 2:
+// [DONE] fetchCurrentWeather() - includes the API fetch (if required?)
+// [DONE] fetchFiveDayForecast() - includes the other API fetch
+// [DONE?] renderElements()
+// [DONE] clearHistory()
+// saveToLocal()
+// retrieveFromLocal()
+// [DONE] dataConversions:
+// kelvinFah()
+// fahCelsius()
+// kphMph()
+// extras:
+// dayHighLow()
+// fetchLocalTime()
+// mini functions for conditionals (where required):
+// checkHumidity()
+// checkTemp()
 
-// issue solve: if array !HAS value; else: clear content 
-// need to re-organise this god awful mess into functions NOW!!
+// if city not found in openweather api then do not accept entry?
 
+removeBtn.addEventListener('click', function (event) {
+    // clear all the buttons, history and storage 
+    $('.buttons-pane').empty();
+})
 
-// kill Jquery
+// event listener for search button
 
 searchBtn.addEventListener("click", function (event) {
-    //     $('#search-button').on('click', function (event) {
-
-    // compare if an array is empty
-    if (historyArray === undefined || historyArray.length == 0) {
-
-        console.log('historyArray is empty:', historyArray)
-    } else {
-        console.log('historyArray contains:', historyArray)
-    }
-    // make on click event occur only if condition met?
 
     // prevent default browser behaviour
     event.preventDefault();
 
-    // clear viewer
-    // $('#forecast').empty();
-
     // grab the text from input box
     let location = $('#search-input').val();
 
+    // if user clicks button but no city has been entered (or incorrect)
+    if (location === '' || !isNaN(location)) {
+        alert('Enter a City please!')
+        return;
+    }
+
+    if (historyArray > 0) {
+        // resetUserInput()
+        // empty previous search
+        $('.viewer').empty()
+        console.log('history > 0; viewer emptied')
+
+    }
+
     // push the city to the historyArray
     historyArray.push(location); // .capitalize() ??
-    console.log(historyArray)
+    console.log('history array has value(s):', historyArray)
 
     // call renderHistoryButtons
     renderHistoryButtons()
 
+    // required? better?
+    fetchData(location)
+
+    // else {
+    //     // it has a value, so clear it ?
+    //     // resetViewer()
+    //     // console.log('the viewer forecast items were removed.', cityName)
+    //     // push the city to the historyArray
+    //     historyArray.push(location); // .capitalize() ??
+    //     console.log('history array has value(s):', historyArray)
+
+    //     // call renderHistoryButtons
+    //     renderHistoryButtons()
+
+    //     // required? better?
+    //     fetchData(location)
+
+
+    // // compare if an array is empty
+    // if (historyArray === undefined || historyArray.length == 0) {
+
+
+
+
+    //     // does the if else need to be here instead?
+
+
+
+    // }
+
+    // store to local
+    // save to history
+    addToSearchHistory()
+
+    // this should be within getWeatherData() why?
+    function addToSearchHistory() {
+        // declare the city
+        // let citySave = $(this).attr('data-name');
+        // console.log('saved city:', citySave) // currently undefined ?
+        // // let queryURL = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&limit=5&appid=${apiKey}`
+
+        // // call the API (OR recall from localStorage PROBABLY)
+
+        // save to localStorage
+
+        let $locationId = $(this).parent().parent().attr('data-name');
+        console.log('saving the location ID (data-name)?: ', $locationId)
+
+        // grab key/val and save it
+        let $searchInput = $('search-input[data-name~="' + event.target.parentElement.dataset.value + '"]').val();
+        // console.log(event.target.dataset.value); // undefined 
+        console.log($('search-input[data-name~="' + event.target.parentElement.dataset.value + '"]'))
+        console.log($searchInput)
+        console.log('the value saved was: ' + $searchInput)
+
+        localStorage.setItem($locationId, $searchInput);
+
+        // console.log('key stored:' + $($timeBlocks).attr('id') + ' & value stored: ' + todoEntry)
+        console.log('key stored:' + $locationId + ' value stored:' + $searchInput)
+
+    }
+
+
+    // } else {
+    //     console.log('historyArray contains:', historyArray)
+    //     console.log('already contains a value!')
+    //     // clear viewer
+    //     // $('#forecast').empty();
+    //     // alert('viewer emptied.')
+    //     console.log('Values now cleared')
+    //     fetchData(location)
+    // }
+})
+
+// // fetch from API
+function fetchData(location) {
+
     // by city name (search entry) must be the GEO endpoint; No, mine works!
     // let queryURL = `https://api.openweathermap.org/geo/1.0/direct?q=${data}&limit=5&appid=${apiKey}&cnt=5`
     let queryURL = `https://api.openweathermap.org/data/2.5/forecast?q=${location}&limit=5&appid=${apiKey}`
-    console.log(queryURL)
+    // console.log(queryURL)
+
+    // try to catch unknown city entry??
+    // try {
+    //     const response = instance.get(`https://api.openweathermap.org/data/2.5/forecast?q=${location}&limit=5&appid=${apiKey}`);
+    // } catch (error) {
+    //     console.log('Request failed!');
+    //     alert("Hey you just 404'd! City not found.");
+    // }
+
+    // try except for if location is not found in openweather api then alert user?
+
 
     // fetch from API
     fetch(queryURL)
         .then(response => response.json())
         .then(data => {
             console.log(data)
-            console.log(typeof (data)) // object
+            // console.log(typeof (data)) // object
 
             // convert the object into usable data
             let city = data.city.name; // london!
-            console.log(city)
-            let country = data.city.country; // london!
-            console.log(country) // GB
+            // console.log(city)
+            let country = data.city.country; // GB
+            // console.log(country) // GB
             let coords = data.city.coord;
-            console.log(coords) // coord object array
+            // console.log(coords) // coord object array
             let lat = data.city.coord.lat
             let lon = data.city.coord.lon
-            console.log(lat, lon)
+            // console.log(lat, lon) // OK
 
-            // lets stick with vanilla!
-            // create
-            let cityTitle = document.createElement('h1');
-            // let cityCoords = document.createElement('h3');
+            // if elements are NOT empty - empty them first
+            if (location.value === '') {
+                $('.viewer').empty()
+                console.log('history > 0; viewer emptied')
+            }
 
-            // set its content
-            cityTitle.textContent = `${city}, ${country}`;
-            // cityCoords.textContent = `Lat: ${lat}, Lon: ${lon}`;
+            else {
+                // create
+                let cityTitle = document.createElement('h1');
+                // let cityCoords = document.createElement('h3');
 
-            // append the style 
-            cityTitle.setAttribute("style", "color: orange", "fontWeight: bolder")
+                // set its content
+                cityTitle.textContent = `${city}, ${country}`;
+                // cityCoords.textContent = `Lat: ${lat}, Lon: ${lon}`;
 
-            // put on the page (append)
-            cityName.appendChild(cityTitle)
-            // current.appendChild(cityCoords)
+                // set data-name 
+                cityTitle.setAttribute('data-name', location)
+                console.log('cityTitle data- added:', cityTitle.getAttribute('data-name'))
 
-            // fetch 5-day forecast here
-            console.log(data.list[0])
-            console.log(data.list[0].dt_txt) // grabs the current day only 
+                // append the style 
+                cityTitle.setAttribute("style", "color: orange", "fontWeight: bolder")
 
-            const fiveDayTitle = document.createElement("h1");
-            fiveDayTitle.style.padding = '1rem';
-            fiveDayTitle.textContent = 'Five Day Forecast';
-            weatherBottom.prepend(fiveDayTitle);
+                // put on the page (append)
+                cityName.appendChild(cityTitle)
+                // current.appendChild(cityCoords)
 
-            const forecastList = data.list;
-            const forecast5Container = document.querySelector(".forecast-5");
-            forecast5Container.classList.add("d-inline-flex");
+                // call getWeather
+                getCurrentWeather(lat, lon);
 
-            // iterate through every dt time stamp, skipping stamps by 8 each pass
-
-            for (let i = 0; i < forecastList.length; i += 8) {
-                const forecast = forecastList[i];
-                console.log('this days forecast stamp:', forecast)
-                let fiveDayIcon = forecast.weather[0].icon;
-                console.log('fiveDayIcon fetch:', fiveDayIcon)
-                const card = document.createElement("div");
-                card.classList.add("card", "bg-dark", "m-3", "justify-content-center");
-                card.style.padding = '1rem';
-
-                const cardBody = document.createElement("div");
-                cardBody.classList.add("card-body");
-
-                const title = document.createElement("h4");
-                title.classList.add("card-title");
-                // convert dt_txt via moment 
-                let fiveDayDate = forecast.dt_txt
-                // let formattedDate = fiveDayDate.format('Do MM')
-                let formattedDate = moment(fiveDayDate).format('dddd Do MMMM');
-                // title.textContent = forecast.dt_txt; // must be formatted using moment
-                title.textContent = formattedDate;
-
-                const temp = document.createElement("p");
-                temp.classList.add("card-text", "pulse");
-                // convert that days temperature to Celsius
-                // Celsius = (Kelvin – 273.15)
-                let forecast5Cels = parseFloat(forecast.main.temp) - 273.15;
-                console.log(forecast5Cels.toFixed(0))
-                forecast5Temp = forecast5Cels.toFixed(0);
-                temp.textContent = `Temperature: ${forecast5Temp} °C`; // kelvin!! needs processing through temp converter function
-
-                // if temp is below 5 - change its colour
-                if (forecast5Temp <= 5) {
-                    temp.style.color = 'lightblue';
-                } else if (forecast5Temp <= 12) {
-                    temp.style.color = 'orange';
-                } else {
-                    temp.style.color = '#D65745';
-                }
-
-                const weather = document.createElement("p");
-                weather.classList.add("card-text");
-                weather.textContent = `Weather: ${forecast.weather[0].description}`;
-
-                // add image element for the icon
-                const icon = document.createElement("img");
-                icon.classList.add("card-img-top", "text-center");
-                // as an alternative to grabbing the icons from my folder (might swap these out I think)
-                icon.src = `https://openweathermap.org/img/wn/${fiveDayIcon}@2x.png`;
-                // or via my own image files
-                // icon.src =`./assets/images/icons/${fiveDayIcon}.png`; // fail!
-                icon.style.width = "100px";
-                icon.style.height = "100px";
-                icon.style.borderRadius = '1rem';
-                icon.style.margin = '2rem auto';
-
-                // if 01n or 10n (sun?) color them orange?
-                if (fiveDayIcon) {
-                    icon.style.backgroundColor = 'orange';
-                }
-
-                // why cant we center the icon?? 
-                // NOTHING WILL CENTER THESE!! hahahaha
-                // icon.style.border = '1px solid red';
-
-                // append elements to the card
-                card.appendChild(icon);
-                cardBody.appendChild(title);
-                cardBody.appendChild(temp);
-                cardBody.appendChild(weather);
-                card.appendChild(cardBody);
-                forecast5Container.appendChild(card);
+                // 5-day forecast from here??
+                fiveDayForecast(data)
             }
 
 
-            // call getWeather
-            getCurrentWeather(lat, lon);
+            // catch garbage 
+            // if location not found by API ?
+            // return instance.get(`?q=${q}&appid=${appid}`).then(/*...*/).catch((error) => console.log('Request failed!'));
 
-            // YOU DO NOT WANT TO NEST THESE - PLACE ALL IN THEIR OWN FUNCTIONS 
+            // if (!location) {
+            //     alert("Hey you just 404'd! City not found." )
+            // }
 
-            // 
+            // }).fail(() => {
+            // alert("City doesn't Exist!!");
+            // $(".city-name").val("");
+            // $("city").text("");
+            // $("description").text("");
+            // $("country").text("");
+            // // $("#mintemp").html("");
+            // // $("#maxtemp").html("");
+        })
+}
 
-            // getWeather()
-            // let temp = data.city.temp;
-            // console.log(temp)
-            // obvs weather doesn;t exist within this object
-            // so how do we access the weather stats required??
-            function getCurrentWeather(lat, lon) {
-                // tap into weather using lat & lon
-                $.ajax({
-                    url: 'https://api.openweathermap.org/data/2.5/weather',
-                    data: {
-                        lat: lat,
-                        lon: lon,
-                        units: 'imperial',
-                        APPID: apiKey
-                    },
-                    success: data => {
-                        console.log(data["main"]["temp"] + " F");
-                        let fah = data["main"]["temp"];
-                        console.log('the temp(F): ', fah)
+// so how do we access the weather stats required??
+function getCurrentWeather(lat, lon) {
+    // tap into weather using lat & lon
+    $.ajax({
+        url: 'https://api.openweathermap.org/data/2.5/weather',
+        data: {
+            lat: lat,
+            lon: lon,
+            units: 'imperial',
+            APPID: apiKey
+        },
+        success: data => {
+            // console.log(data["main"]["temp"] + " F");
+            let fah = data["main"]["temp"];
+            // console.log('the temp(F): ', fah)
 
-                        // convert to Celsius 
-                        // (F * by 1.8 (or 9/5) and + 32.)
-                        // let cel = (parseFloat(fah) - 32) * 5 / 9 + " °C";
-                        fahToCel(fah)
-                        // fahrenheit to celsius converter function
-                        function fahToCel(fah) {
-                            getCels = (parseFloat(fah) - 32) * 5 / 9;
-                            return getCels;
-                        }
+            // convert to Celsius 
+            // (F * by 1.8 (or 9/5) and + 32.)
+            // let cel = (parseFloat(fah) - 32) * 5 / 9 + " °C";
+            fahToCel(fah)
+            // fahrenheit to celsius converter function
+            function fahToCel(fah) {
+                getCels = (parseFloat(fah) - 32) * 5 / 9;
+                return getCels;
+            }
 
-                        // fix decimals 
-                        cels = getCels.toFixed(0); // OK
-                        fahr = fah.toFixed(1); // oddly, not ok
+            // fix decimals 
+            cels = getCels.toFixed(0); // OK
+            fahr = fah.toFixed(1); // oddly, not ok
 
-                        // description
+            // city 
 
-                        let desc = data.weather[0].description;
-                        console.log(desc)
+            let city = data.name; // london!
+            // console.log(city)
 
-                        let cityDescription = document.createElement('h2');
-                        cityDescription.textContent = `The forecast for ${city} is ${desc}.`
-                        description.appendChild(cityDescription)
+            // description
 
-                        // feels like 
-                        console.log(data["main"]["feels_like"]) // ok
-                        let feels = data["main"]["feels_like"]
-                        let feelsLike = document.createElement('h4');
-                        // feelsLike.textContent = `Feels like ${feels} F`;
-                        // convert it to Celsius
-                        getFeelsCels = (parseFloat(feels) - 32) * 5 / 9;
-                        feelsLikeCels = getFeelsCels.toFixed(0);
-                        feelsLike.textContent = `Feels like ${feelsLikeCels} °C`;
-                        feelsLike.style.paddingBottom = '.2rem';
-                        description.appendChild(feelsLike)
+            let desc = data.weather[0].description;
+            // console.log(desc)
 
-                        // getWeather(lat, lon);
+            let cityDescription = document.createElement('h2');
+            cityDescription.textContent = `The forecast for ${city} is ${desc}.`
+            description.appendChild(cityDescription)
 
-                        // create separate divs to inline the 2 elements (icon and text)
-                        // why not simply add the icon as part of the h3? - text messes up
-                        // add and append it below 
-                        let cityTemp = document.createElement('h3');
-                        cityTemp.textContent = `The current temperature is: ${cels} °C`;
-                        // for American folks!
-                        // TODO: offer a switch toggle here to select which gets displayed
-                        let cityTempF = document.createElement('h3');
-                        cityTempF.textContent = `For you American folk, that's: ${fahr} °F`;
-                        // generate google icon
-                        tempIcon = document.createElement('span')
-                        tempIcon.classList.add('pulse')
-                        tempIcon.classList.add('material-symbols-outlined');
-                        tempIcon.textContent = 'thermostat';
-                        // append to page 
-                        current.append(tempIcon, cityTemp)
-                        // current.appendChild(cityTemp)
-                        // current.appendChild(cityTempF)
+            // feels like 
+            // console.log(data["main"]["feels_like"]) // ok
+            let feels = data["main"]["feels_like"]
+            let feelsLike = document.createElement('h4');
+            // feelsLike.textContent = `Feels like ${feels} F`;
+            // convert it to Celsius
+            getFeelsCels = (parseFloat(feels) - 32) * 5 / 9;
+            feelsLikeCels = getFeelsCels.toFixed(0);
+            feelsLike.textContent = `Feels like ${feelsLikeCels} °C`;
+            feelsLike.style.paddingBottom = '.2rem';
+            description.appendChild(feelsLike)
 
-                        // log humidity
-                        console.log(data["main"]["humidity"] + '%')
-                        let hum = data["main"]["humidity"];
-                        let humidity = document.createElement('h4');
-                        humidity.textContent = `Current humidity is ${hum}%`
-                        
-                        // generate google icon HUMIDITY
+            // add and append it below 
+            let cityTemp = document.createElement('h3');
+            cityTemp.textContent = `The current temperature is: ${cels} °C`;
+            // for American folks!
+            // TODO: offer a switch toggle here to select which gets displayed
+            let cityTempF = document.createElement('h3');
+            cityTempF.textContent = `For you American folk, that's: ${fahr} °F`;
+            // generate google icon
+            tempIcon = document.createElement('span')
+            tempIcon.classList.add('pulse')
+            tempIcon.classList.add('material-symbols-outlined');
+            tempIcon.textContent = 'thermostat';
+            // append to page 
+            current.append(tempIcon, cityTemp)
+            // current.appendChild(cityTemp)
+            // current.appendChild(cityTempF)
 
-                        // IF humidity <= 33% (low icon)
-                        // else if humidity <= 66% (med icon)
-                        // else (high humidity icon)
+            // log humidity
+            // console.log(data["main"]["humidity"] + '%')
+            let hum = data["main"]["humidity"];
+            let humidity = document.createElement('h4');
+            humidity.textContent = `Current humidity is ${hum}%`
 
-                        humIcon = document.createElement('span')
-                        humIcon.classList.add('pulse')
-                        humIcon.classList.add('material-symbols-outlined');
-                        humIcon.textContent = 'humidity_percentage';
-                        current.append(humIcon, humidity)
-                        // current.appendChild(humidity)
+            // generate google icon HUMIDITY
 
-                        // windspeed
-                        console.log(data.wind.speed)
-                        let wind = data.wind.speed;
-                        let windSpeed = document.createElement('h4');
-                        windSpeed.textContent = `Wind speed is currently ${wind} KPH`
-                        // current.appendChild(windSpeed)
+            // IF humidity <= 33% (low icon)
+            // else if humidity <= 66% (med icon)
+            // else (high humidity icon)
 
-                        // google air icon
-                        airIcon = document.createElement('span')
-                        airIcon.classList.add('pulse')
-                        airIcon.classList.add('material-symbols-outlined');
-                        airIcon.textContent = 'air';
-                        current.appendChild(airIcon)
-                        // get MPH: KPH / 1.609344 = MPH
+            humIcon = document.createElement('span')
+            humIcon.classList.add('pulse')
+            humIcon.classList.add('material-symbols-outlined');
+            humIcon.textContent = 'humidity_percentage';
+            current.append(humIcon, humidity)
+            // current.appendChild(humidity)
 
-                        let mph = parseFloat(wind) / 1.609344
-                        console.log(mph)
-                        let mphFixed = mph.toFixed(2)
-                        let windMph = document.createElement('h4');
-                        windMph.textContent = `Wind speed is currently ${mphFixed} MPH`
-                        current.appendChild(windMph)
+            // windspeed
+            // console.log(data.wind.speed)
+            let wind = data.wind.speed;
+            let windSpeed = document.createElement('h4');
+            windSpeed.textContent = `Wind speed is currently ${wind} KPH`
+            // current.appendChild(windSpeed)
 
-                        // icon code
+            // google air icon
+            airIcon = document.createElement('span')
+            airIcon.classList.add('pulse')
+            airIcon.classList.add('material-symbols-outlined');
+            airIcon.textContent = 'air';
+            current.appendChild(airIcon)
+            // get MPH: KPH / 1.609344 = MPH
 
-                        console.log(data.weather[0].icon) // grabs icon code for city
-                        // let iconCode = data.weather[0].icon;
-                        let { icon } = data.weather[0];
+            let mph = parseFloat(wind) / 1.609344
+            // console.log(mph)
+            let mphFixed = mph.toFixed(2)
+            let windMph = document.createElement('h4');
+            windMph.textContent = `Wind speed is currently ${mphFixed} MPH`
+            current.appendChild(windMph)
 
-                        // let iconUrl = "http://openweathermap.org/img/w/" + iconCode + ".png";
+            // icon code
 
-                        //display icon:
-                        // let iconDiv = document.createElement('img');
-                        // iconDiv.setAttribute('class', 'weather-icon');
-                        // iconDiv.innerHTML = `<img src="${iconImg}">`;
-                        // weatherIcon.append(icon)
+            // console.log(data.weather[0].icon) // grabs icon code for city
+            // let iconCode = data.weather[0].icon;
+            let { icon } = data.weather[0];
 
-                        // $('#weather-icon').attr('src', iconUrl);
-
-                        weatherIcon.innerHTML = `
+            weatherIcon.innerHTML = `
                                     <img src="./assets/images/icons/${icon}.png">`;
 
-                        // 5-day forecast from here??
+        }
+    })
+}
 
-                        // console.log(data.weather[0])
-                        // console.log(data.weather[0].dt_txt) // grabs the current day 
+function fiveDayForecast(data) {
 
+    // grab the min and max for the day?
+    // let tempMin = data.temp_min;
+    // let tempMax = data.temp_max;
+    // console.log(tempMin, tempMax) // undefined
 
+    // fetch 5-day forecast here
+    console.log(data.list[0])
+    // console.log(data.list[0].dt_txt) // grabs the current day only 
 
-                    }
-                })
-            }
+    const fiveDayTitle = document.createElement("h1");
+    fiveDayTitle.style.padding = '1rem';
+    fiveDayTitle.textContent = 'Five Day Forecast';
+    weatherBottom.prepend(fiveDayTitle);
 
+    const forecastList = data.list;
+    const forecast5Container = document.querySelector(".forecast-5");
+    forecast5Container.classList.add("d-inline-flex");
 
-            // if user presses button AGAIN (once values are generated to the page)
-            // clear previous
-            // if (cityName !== null || '') {
+    // iterate through every dt time stamp, skipping stamps by 8 each pass
 
-            //     // clear previous search?
-            //     $('.viewer').empty(); 
-            // } 
+    for (let i = 0; i < forecastList.length; i += 8) {
+        const forecast = forecastList[i];
+        // console.log('this days forecast stamp:', forecast)
+        let fiveDayIcon = forecast.weather[0].icon;
+        // console.log('fiveDayIcon fetch:', fiveDayIcon)
+        const card = document.createElement("div");
+        card.classList.add("card", "bg-dark", "m-3", "justify-content-center");
+        card.style.padding = '1rem';
 
+        const cardBody = document.createElement("div");
+        cardBody.classList.add("card-body");
 
+        const title = document.createElement("h4");
+        title.classList.add("card-title");
+        // convert dt_txt via moment 
+        let fiveDayDate = forecast.dt_txt
+        // let formattedDate = fiveDayDate.format('Do MM')
+        let formattedDate = moment(fiveDayDate).format('dddd Do MMMM');
+        // title.textContent = forecast.dt_txt; // must be formatted using moment
+        title.textContent = formattedDate;
 
-            ///
-            // let jsonData = JSON.parse(data);
+        const temp = document.createElement("p");
+        temp.classList.add("card-text", "pulse");
+        // convert that days temperature to Celsius
+        // Celsius = (Kelvin – 273.15)
+        let forecast5Cels = parseFloat(forecast.main.temp) - 273.15;
+        // console.log(forecast5Cels.toFixed(0))
+        forecast5Temp = forecast5Cels.toFixed(0);
+        temp.textContent = `Temperature: ${forecast5Temp} °C`; // kelvin!! needs processing through temp converter function
 
-            // pm.letiables.get("city");
+        // if temp is below 5 - change its colour
+        if (forecast5Temp <= 5) {
+            temp.style.color = 'lightblue';
+        } else if (forecast5Temp <= 12) {
+            temp.style.color = 'orange';
+        } else {
+            temp.style.color = '#D65745';
+        }
 
-            // let weather = jsonData.weather[0].description;
-            // // let temp = jsonData.main.temp;
-            // // let city = jsonData.name;
-            // let date = new Date()
-            // //let cleandate = date.slice(0,date.lastIndexOf('T'));
+        const weather = document.createElement("p");
+        weather.classList.add("card-text");
+        weather.textContent = `Weather: ${forecast.weather[0].description}`;
 
-            // pm.environment.set('weather', weather)
-            // pm.environment.set('temp', ((temp - 273.15) * (9 / 5) + 32).toFixed(3).replace(/\.(\d\d)\d?$/, '.$1'))
-            // pm.environment.set('thecity', city);
+        // add image element for the icon
+        const icon = document.createElement("img");
+        icon.classList.add("card-img-top", "text-center");
+        // as an alternative to grabbing the icons from my folder (might swap these out I think)
+        icon.src = `https://openweathermap.org/img/wn/${fiveDayIcon}@2x.png`;
+        // or via my own image files
+        // icon.src =`./assets/images/icons/${fiveDayIcon}.png`; // fail!
+        icon.style.width = "100px";
+        icon.style.height = "100px";
+        icon.style.borderRadius = '1rem';
+        icon.style.margin = '2rem auto';
 
-            // let rec = pm.environment.get("activity");
+        // if 01n or 10n (sun?) color them orange?
+        if (fiveDayIcon) {
+            icon.style.backgroundColor = 'orange';
+        }
 
-            // let yesjacket = "You may need a jacket though.";
-            // let nojacket = "";
+        // why cant we center the icon?? 
+        // NOTHING WILL CENTER THESE!! hahahaha
+        // icon.style.border = '1px solid red';
 
-            // //rec = 'outdoor' &&
+        // append elements to the card
+        card.appendChild(icon);
+        cardBody.appendChild(title);
+        cardBody.appendChild(temp);
+        cardBody.appendChild(weather);
+        card.appendChild(cardBody);
+        forecast5Container.appendChild(card);
+    }
 
-            // if (pm.environment.get("temp") < 62) {
+}
 
-            //     pm.environment.set("jacket", yesjacket);
-            // }
-
-            // if (pm.environment.get("activity") == "indoor") {
-            //     pm.environment.set("jacket", nojacket);
-            // }
-
-            // pm.environment.set("test", "5555");
-
-            // console.log(jsonData.name);
-
-
-
-        })
-})
 
 
 
@@ -447,24 +527,11 @@ searchBtn.addEventListener("click", function (event) {
 // clear all local storage 
 // clear and delete all the buttons 
 
-
-// this should be getWeatherData() TODO
-function addToSearchHistory() {
-    // declare the city
-    let city = $(this).attr('data-name');
-    let queryURL = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&limit=5&appid=${apiKey}`
-
-    // call the API (OR recall from localStorage PROBABLY)
-
-
-}
-
 // render new history buttons
 
 function renderHistoryButtons() {
 
-    // delete prior searches?? do we want this here? 
-    // not until we set to 'clear history button'
+    // stop duplicates (clear previous)
     $('.buttons-pane').empty();
 
     // loop through array items
@@ -472,7 +539,7 @@ function renderHistoryButtons() {
         // capitalise title
         let btnLabel = historyArray[i];
         // let capBtnLabel = btnLabel.capitalize();
-        // console.log(capBtnLabel)
+        console.log('btnLabel has rendered via array: ', btnLabel)
         // generate buttons from array
         let newBtn = document.createElement('button');
         // why do we have to do the Jquery way here~??
