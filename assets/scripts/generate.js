@@ -328,32 +328,53 @@ function renderHistoryButtons() {
 // add event listener here?? How to get it outside this function - added newBtn as a global for now
 // why are these buttons forcing a page refresh when clicked on?
 
-// why is this btn call white not purple? something is wrong here 
+// why must this a JQ on event here? - we need the second element 
 // newBtn.addEventListener("click", function (event) {
+$('.buttons-pane').on("click", "button.searched-city", function (event) {
+    // prevent default
+    event.preventDefault();
+    // log the target data-name (per button)
+    console.log(event.target.getAttribute('data-name'))
 
-//     // prevent default
-//     event.preventDefault();
+    // define the name 
+    let dataName = event.target.getAttribute('data-name')
+    // re-fetch from the API
+    // .then
+    fetchData(dataName).then(data => {
 
-//     // attempt to access this function?!
-//     console.log('acknowledge??')
-//     console.log(newBtn.getAttribute('data-name'))
+    // re-render elements 
+    generateElements(data)
+    generateFiveDayElements(data)
+    // set pane colour
+    viewerPane.style.backgroundColor = '#fff';
+    
+    })
 
-// })
+});
+
 
 removeBtn.addEventListener('click', function (event) {
-    // clear all the buttons, history and storage 
-    $('.buttons-pane').empty();
 
-    // clear local
-    // must be BEFORE array clearing 
-    localStorage.clear();
+    // if array is empty ?
 
-    // clear the array
-    searchHistory = [];
-    console.log('history array is now cleared:', searchHistory)
+    if (searchHistory === undefined || searchHistory.length == 0) {
+        // alert
+        alert('Nothing to clear!')
 
-    // alert?
-    alert('Search history cleared!')
+    } else {
+        // clear all the buttons, history and storage 
+        $('.buttons-pane').empty();
+
+        // clear local
+        // must be BEFORE array clearing 
+        localStorage.clear();
+
+        // clear the array
+        searchHistory = [];
+        console.log('history array is now cleared:', searchHistory)
+        // alert last
+        alert('Search history cleared!')
+    }
 
 })
 

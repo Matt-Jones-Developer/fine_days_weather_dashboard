@@ -68,17 +68,21 @@ searchBtn.addEventListener("click", function (event) {
 
     // prevent default
     event.preventDefault();
-    // set pane colour
-    viewerPane.style.backgroundColor = '#fff';
 
     // grab text from input box
     let location = document.querySelector('#search-input').value;
-    console.log('proper vanilla location: ', location)
+    console.log('city/location: ', location)
+
+
 
     // if user clicks button but no city entered - catch
     if (location === '' || !isNaN(location)) {
         alert('Enter a City please!');
         return;
+
+    } else {
+        // set pane colour
+        viewerPane.style.backgroundColor = '#fff';
     }
 
     // push the city to the searchHistory
@@ -98,17 +102,29 @@ searchBtn.addEventListener("click", function (event) {
     // get location data AFTER success 
     fetchData(location).then(data => {
 
-        // call getCity
-        getCity(data)
+        // first point for 'data' access 
+        // ... yet this simple if else is doing the OPPOSITE of logic (why??)
+        // garbage collector
+        if (data.cod != 200) {
+            alert("you just 404'd! Try again...")
+            // if I reverse it, it kind of works, 
+            // but the renderButton() STILL happens on next search?? (the garbage input)
 
-        // generate all elements
-        generateElements(data)
+        } else {
 
-        // call 5-day
-        generateFiveDayElements(data)
+            // call getCity
+            getCity(data)
 
-        // call renderHistoryButtons
-        renderHistoryButtons()
+            // generate all elements
+            generateElements(data)
+
+            // call 5-day
+            generateFiveDayElements(data)
+
+            // call renderHistoryButtons
+            renderHistoryButtons()
+
+        }
 
     });
 
