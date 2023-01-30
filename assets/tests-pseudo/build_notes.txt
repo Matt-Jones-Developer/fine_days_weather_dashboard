@@ -54,6 +54,13 @@ MVP FIRST.
 		// persist:
 		1. The buttons and city/location labels
 		2. The key/value (data-name + API data that was received)
+
+
+	// solving local storage:
+		// we have data being stored from 3 places? 
+			1. getCity() (which is data for:) 
+				// cityTitle: London, GB ${city}, ${country}
+				// 
 		
 		// IF user presses 'clear history' button; clear ALL
 

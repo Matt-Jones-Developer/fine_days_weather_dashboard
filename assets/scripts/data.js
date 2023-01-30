@@ -2,6 +2,9 @@
 
 // temp global searchBtn - may move this to more logical file
 const searchBtn = document.querySelector('.search-button')
+const userInput = document.querySelector('#search-input')
+// for viewer colour change request
+let viewerPane = document.querySelector('.viewer')
 
 // array to store history - again where is the best location for this?
 let historyArray = [];
@@ -36,6 +39,8 @@ function getDateTime() {
         // update every second
     }, 1000)
 }
+
+// all event handlers (new script?) or within the renderHistoryButtons()
 
 // search button event listener 
 searchBtn.addEventListener("click", function (event) {
@@ -79,9 +84,17 @@ searchBtn.addEventListener("click", function (event) {
         // call renderHistoryButtons
         renderHistoryButtons()
 
+        // // save to local storage
+        // // saveCityToLocal(city, country) // we havent defined these yet!
+        saveAllToLocal(data) // send all data?
     });
 
 });
+
+// generated locations event listener 
+
+
+
 
 // all data functions 
 
@@ -98,8 +111,9 @@ async function fetchData(location) {
     // await response and assign
     const data = await response.json()
     console.log(data)
-    // wrong! this data is undefined - not passing correctly
+    // data is undefined - not passing correctly
     // return getCity(data)
+    // thats the one!
     return data;
 }
 
@@ -138,6 +152,9 @@ function getCity(data) {
 
     // call the 5-day function
     fiveDayForecast(data)
+
+    // save to storage (adding the data as input args)
+    // saveCityToLocal(cityData, country)
 
 }
 
