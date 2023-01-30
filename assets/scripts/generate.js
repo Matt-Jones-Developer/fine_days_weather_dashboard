@@ -347,7 +347,7 @@ $('.buttons-pane').on("click", "button.searched-city", function (event) {
     generateFiveDayElements(data)
     // set pane colour
     viewerPane.style.backgroundColor = '#fff';
-    
+
     })
 
 });
@@ -373,7 +373,7 @@ removeBtn.addEventListener('click', function (event) {
         searchHistory = [];
         console.log('history array is now cleared:', searchHistory)
         // alert last
-        alert('Search history cleared!')
+        alert('Search history will clear now!')
     }
 
 })

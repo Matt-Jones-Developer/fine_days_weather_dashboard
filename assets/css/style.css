@@ -325,6 +325,7 @@ input[type=text] {
 .footer-image img {
     width: 440px;
     height: 400px;
+    /* border: 1px solid red; */
 
 }
 
@@ -332,5 +333,6 @@ input[type=text] {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: -3rem auto;
+    margin: -4rem auto;
+    margin-bottom: -3rem;
 }
