@@ -16,7 +16,8 @@ let current = document.querySelector('.current')
 let history = document.querySelector('#history')
 let fiveDayLabel = document.querySelector('.five-day-heading')
 let buttonsPane = document.querySelector('.buttons-pane')
-
+// force btn as a global
+newBtn = document.createElement('button');
 
 // generate dynamic elements for current weather 
 
@@ -45,9 +46,10 @@ function generateElements(data) {
     cityName.innerHTML = '';
     // set its content
     cityTitle.textContent = `${city}, ${country}`;
-    // set data-name 
-    cityTitle.setAttribute('data-name', location)
-    console.log('cityTitle data- added:', cityTitle.getAttribute('data-name'))
+    // // set data-name 
+    // cityTitle.setAttribute('data-name', location)
+    // console.log('is location?: ', location) // some rando html element that DOES NOT CONTAIN the city name anymore!
+    // console.log('cityTitle data- added:', cityTitle.getAttribute('data-name'))
     // append the style 
     cityTitle.setAttribute("style", "color: orange", "fontWeight: bolder")
     // append to page
@@ -286,38 +288,30 @@ function generateFiveDayElements(data) {
 // render new history buttons
 // check if user input is already in an array? - failing currently
 
+// why are these buttons forcing a page refresh when clicked on?
+
 function renderHistoryButtons() {
-
-    console.log(!historyArray.includes($('#search-input').val()));
-    console.log(historyArray)
-    console.log($('#search-input').val())
-    console.log(historyArray.includes($('#search-input').val()));
-
 
     // stop duplicates (clear previous)
     $('.buttons-pane').empty();
-    // re-show from remove function
-    // buttonsPane.style.display = "block"; - nope!
-    let count = 0;
     // catch duplicate entry
     // why doesn't this !not work here?? - because location is a very strange object!
-    // if (!historyArray.includes(location)) {
+    // if (!searchHistory.includes(location)) {
     // this should be NOT - it doesn't work also!
-    // if (!historyArray.includes($('#search-input').val())) {
+    // if (!searchHistory.includes($('#search-input').val())) {
     // loop through array items
-    for (let i = 0; i < historyArray.length; i++) {
+    for (let i = 0; i < searchHistory.length; i++) {
 
         // assign item to btn
-        let btnLabel = historyArray[i];
-        count++;
-        // let capBtnLabel = btnLabel.capitalize();
+        let btnLabel = searchHistory[i];
+        // debug
         console.log('btnLabel has rendered via array: ', btnLabel)
         // generate buttons from array
         newBtn = document.createElement('button');
         //add classes
         newBtn.classList.add('btn', 'btn-secondary', 'searched-city');
         // add a data-attribute 
-        newBtn.setAttribute('data-name', historyArray[i])
+        newBtn.setAttribute('data-name', searchHistory[i])
 
         // style buttons
         newBtn.style.backgroundColor = 'orange';
@@ -325,43 +319,57 @@ function renderHistoryButtons() {
         newBtn.style.textTransform = 'capitalize';
         newBtn.style.width = '8rem';
         // add the city as the button text
-        newBtn.textContent = historyArray[i];
+        newBtn.textContent = searchHistory[i];
         // append the button to the aside
         buttonsPane.appendChild(newBtn)
-
-        // why won't this persist??
-        if (count > 5) {
-            let counterAlert = document.createElement('h3');
-            counterAlert.innerHTML = "\nWoah! How many cities yer visiting there?\nWe about to make this UI look well ugly!"
-            current.appendChild(counterAlert)
-        }
     }
-    // } else {
-    //     alert('Location already saved. Please choose another location!')
+}
+
+// add event listener here?? How to get it outside this function - added newBtn as a global for now
+// why are these buttons forcing a page refresh when clicked on?
+
+// why is this btn call white not purple? something is wrong here 
+// newBtn.addEventListener("click", function (event) {
+
+//     // prevent default
+//     event.preventDefault();
+
+//     // attempt to access this function?!
+//     console.log('acknowledge??')
+//     console.log(newBtn.getAttribute('data-name'))
+
+// })
+
+removeBtn.addEventListener('click', function (event) {
+    // clear all the buttons, history and storage 
+    $('.buttons-pane').empty();
+
+    // clear local
+    // must be BEFORE array clearing 
+    localStorage.clear();
+
+    // clear the array
+    searchHistory = [];
+    console.log('history array is now cleared:', searchHistory)
+
+    // alert?
+    alert('Search history cleared!')
+
+})
+
+
+    // console.log('can we access the data-name for that btn? :', newBtn.getAtrribute('data-name', searchHistory))
+    // Recall the correct dataIndex location data from localStorage
+
+    // // // if newBtn.data-name.matches(location.dataIndex) ??
+    // if (event.target.getAttribute('data-name') === searchHistory[i]) {
+
+    //     // retrieve correct location and data
+    //     searchHistory = JSON.parse(localStorage.getItem("search-history"));
+
     // }
 
-    // this is not right!  it currently deletes itself and cannot get logs?
-
-    // add event listener here?? How to get it outside this function
-    newBtn.addEventListener("click", function (event) {
-        console.log('locations.dataIndex value? :', locations.dataIndex)
-        // Recall the correct dataIndex location data from localStorage 
-
-        // if newBtn.data-name.matches(location.dataIndex) ??
-        if (event.target.getAtrribute('data-name') === locations.dataIndex) {
-
-            // retrieve correct location and data
-            locations = JSON.parse(localStorage.getItem("locations"));
-
-            // re-render the data to the correct elements
-            // re-call functions 
-            generateElements() // supposed to data as an arg?
-            generateFiveDayElements() // supposed to data as an arg?
-
-        }
-
-    })
-}
+// })
 
 
 // LOCAL STORAGE ISSUE - IT OVERWRITES THE LAST 
@@ -372,87 +380,162 @@ function renderHistoryButtons() {
 // THIS IS CURRENTLY UNUSED - BUT ACCESSIBLE BY COMMENTING IN LINE 150 IN DATA.JS
 
 // save to localStorage functions - whats the cleanest way - rather than 3 separate functions??
-function saveCityToLocal(cityData, country) {
+// function saveCityToLocal(cityData, country) {
 
-    // object that holds city
-    let cityDataObject = {
-        city: cityData,
-        country: country
-    }
+//     // object that holds city
+//     let cityDataObject = {
+//         city: cityData,
+//         country: country
+//     }
 
-    console.log('cityDataObject - complete?: ', cityDataObject) //ok!
+//     console.log('cityDataObject - complete?: ', cityDataObject) //ok!
 
-    let locations = [];
-    console.log('location array:', locations)
-    // if local has locations 
-    if (localStorage.getItem("locations")) {
-        // grab them 
-        locations = JSON.parse(localStorage.getItem("locations"));
-        console.log('saved locations found:', locations)
-    }
-    // add a new data-index to each saved location and ++ (must be +1??)
-    cityDataObject.dataIndex = locations.length + 1;
-    console.log('add 1 more to data-index', cityDataObject.dataIndex)
-    // push new object to array
-    locations.push(cityDataObject);
-    console.log('new location pushed to array:', locations)
-    // use the data-index as the key
-    localStorage.setItem(`location-${cityDataObject.dataIndex}`, JSON.stringify(cityDataObject));
+//     let locations = [];
+//     console.log('location array:', locations)
+//     // if local has locations 
+//     if (localStorage.getItem("locations")) {
+//         // grab them 
+//         locations = JSON.parse(localStorage.getItem("locations"));
+//         console.log('saved locations found:', locations)
+//     }
+//     // add a new data-index to each saved location and ++ (must be +1??)
+//     cityDataObject.dataIndex = locations.length + 1;
+//     console.log('add 1 more to data-index', cityDataObject.dataIndex)
+//     // push new object to array
+//     locations.push(cityDataObject);
+//     console.log('new location pushed to array:', locations)
+//     // use the data-index as the key
+//     localStorage.setItem(`location-${cityDataObject.dataIndex}`, JSON.stringify(cityDataObject));
 
-    console.log('new location index stored and as a new key?!: ', localStorage, cityDataObject.dataIndex)
-    // debug
-    console.log('cityDataObject set in local:', localStorage) // OK
+//     console.log('new location index stored and as a new key?!: ', localStorage, cityDataObject.dataIndex)
+//     // debug
+//     console.log('cityDataObject set in local:', localStorage) // OK
 
-}
+// }
 
 // LOCAL STORAGE FUNCTION (ACTIVE)
 
 // what input args does this need?
 // we want it to save a new object PER CITY SEARCH - not all together
 
-// save to localStorage functions - whats the cleanest way - rather than 3 separate functions??
-function saveAllToLocal(data) {
+/*
 
-    // object that holds city
-    let cityDataObject = {
-        // WHY CANT I RE-USE VARS??
-        city: data.city.name,
-        country: data.city.country,
-        desc: data.list[0].weather[0].description,
-        feels: data.list[0].main.feels_like,
-        temp: data.list[0].main.temp,
-        hum: data.list[0].main.humidity,
-        wind: data.list[0].wind.speed,
-        icon: data.list[0].weather[0]
-        // not required
-        // dataIndex: 0
-    }
+So basically, you don't need to save all of the values and data associate
+with each city to localstorage.
 
-    console.log('cityDataObject - complete?: ', cityDataObject) //ok!
+All you need to do is save the names of the city to local storage and
+set it to a array.
 
-    // empty array to hold the location saves
-    let locations = [];
-    console.log('location array:', locations)
-    // if local has locations - retrieve 
-    if (localStorage.getItem("locations")) {
-        // grab them 
-        locations = JSON.parse(localStorage.getItem("locations"));
-        console.log('saved locations found:', locations)
-    }
+THEN when you want to re-call the information for that city using your previous
+search buttons all you need to do is re-call you fetchWeather function
+and insert the name into your query again
 
-    // add a new data-index to each saved location and ++ (must be +1??)
-    cityDataObject.dataIndex = locations.length + 1;
-    console.log('add 1 more to data-index', cityDataObject.dataIndex)
-    // push new object to array
-    locations.push(cityDataObject);
-    console.log('new location pushed to array:', locations)
-    // use the data-index as the key
-    localStorage.setItem(`location-${cityDataObject.dataIndex}`, JSON.stringify(cityDataObject));
+So all you should see in your local storage really is a array of names,
+then you insert that name into your fetch weather function again when you
+want to re-look up the weather for that city
 
-    console.log('new location index stored and as a new key?!: ', localStorage, cityDataObject.dataIndex)
-    // debug
-    console.log('cityDataObject set in local:', localStorage) // OK
+So this won't work right out of the box but this is the idea,
+basically we use a function to save our search-input to local storage
+in a array. So we have a array of names. Pretty simple!
+
+But now we need a function that targets our history buttons so we have a
+function that takes in a event and see if the target matches a class or id
+that our history buttons have and then takes the value of that button
+and re-passes it into our function that gets our weather.
+
+So here are the 2 examples, basically we don't need to save all of the location
+data and values, all we need to save is the name that we search
+which should just be a string
+
+function saveCityToLocal() {
+
+    searchHistory.push(search);
+
+    localStorage.setItem('search-history', JSON.stringify(searchHistory));
 
 }
+
+function handleSearchHistoryClick(e) {
+  // Don't do search if current elements is not a search history button
+  if (!e.target.matches('.btn-history')) {
+    return;
+  }
+
+  var btn = e.target;
+  var search = btn.getAttribute('data-search');
+  weatherfunction(search);
+}
+
+
+function initSearchHistory() {
+  var storedHistory = localStorage.getItem('search-history');
+  if (storedHistory) {
+    searchHistory = JSON.parse(storedHistory);
+  }
+  renderSearchHistory();
+// renderSearchHistory is a placeholder function for you to take this
+information and create HTML with it you don't have to use a function though
+and can just create your logic here
+}
+
+For this assignment there no need to really create objects and or create a array
+of objects. You really only need to save the name that was searched and then
+re-call the function that got your weather in the event listener function
+we went over and pass in the new information
+
+Ideally, you'd only save the city name in local storage and when you do the localStorage.getItem
+you would run that value into the api again
+
+Overriding the cityDataObject is totally fine. It's just the part where you saved to the
+citydataobject.dataIndex as the key name that was causing the issue (line 524?)
+
+*/
+
+// save to localStorage functions - whats the cleanest way - rather than 3 separate functions??
+// function saveAllToLocal(data) {
+
+//     // object that holds city
+//     let cityDataObject = {
+//         // WHY CANT I RE-USE VARS??
+//         city: data.city.name,
+//         country: data.city.country,
+//         desc: data.list[0].weather[0].description,
+//         feels: data.list[0].main.feels_like,
+//         temp: data.list[0].main.temp,
+//         hum: data.list[0].main.humidity,
+//         wind: data.list[0].wind.speed,
+//         icon: data.list[0].weather[0]
+//         // not required
+//         // dataIndex: 0
+//     }
+
+//     let city = data.city.name;
+
+//     console.log('cityDataObject - complete?: ', city) //ok!
+
+//     // empty array to hold the location saves
+//     let locations = [];
+//     console.log('location array:', locations)
+//     // if local has locations - retrieve 
+//     if (localStorage.getItem("locations")) {
+//         // grab them 
+//         locations = JSON.parse(localStorage.getItem("locations"));
+//         console.log('saved locations found:', locations)
+//     }
+
+//     // add a new data-index to each saved location and ++ (must be +1??)
+//     cityDataObject.dataIndex = locations.length + 1;
+//     console.log('add 1 more to data-index', cityDataObject.dataIndex)
+//     // push new object to array
+//     locations.push(cityDataObject);
+//     console.log('new location pushed to array:', locations)
+//     // use the data-index as the key
+//     localStorage.setItem(`location-${cityDataObject.dataIndex}`, JSON.stringify(cityDataObject));
+
+//     console.log('new location index stored and as a new key?!: ', localStorage, cityDataObject.dataIndex)
+//     // debug
+//     console.log('cityDataObject set in local:', localStorage) // OK
+
+// }
 
 

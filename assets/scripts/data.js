@@ -6,13 +6,18 @@ const userInput = document.querySelector('#search-input')
 // for viewer colour change request
 let viewerPane = document.querySelector('.viewer')
 
-// array to store history - again where is the best location for this?
-let historyArray = [];
-console.log('history array is empty:', historyArray)
+// global for city location
+// as saveToLocal cannot find it
+// let location;
 
 // all data functions and API fetching
 
 const apiKey = '8d752016daf18245563fe658805d4425';
+
+// array to store history - again where is the best location for this?
+let searchHistory = [];
+console.log('history array is empty:', searchHistory)
+
 
 // call the dateTime 
 getDateTime()
@@ -42,6 +47,22 @@ function getDateTime() {
 
 // all event handlers (new script?) or within the renderHistoryButtons()
 
+// on-load handler - grab the items and buttons from local?
+// how will we get the buttons??
+// on-load event handler?
+window.onload = function () {
+    // if local has locations 
+    if (localStorage.getItem("search-history")) {
+        // grab them 
+        searchHistory = JSON.parse(localStorage.getItem("search-history"));
+        console.log('saved locations found:', searchHistory) // ok
+
+        // generate the button(s) for the saved cities
+        renderHistoryButtons()
+
+    }
+}
+
 // search button event listener 
 searchBtn.addEventListener("click", function (event) {
 
@@ -60,16 +81,21 @@ searchBtn.addEventListener("click", function (event) {
         return;
     }
 
-    // push the city to the historyArray
-    historyArray.push(location); // .capitalize() ??
-    console.log('history array has value(s):', historyArray)
+    // push the city to the searchHistory
+
+    // should this be INSIDE saveCityToLocal()
+    searchHistory.push(location);
+    console.log('history array has value(s):', searchHistory)
+
+    // set new item to local 
+    localStorage.setItem('search-history', JSON.stringify(searchHistory));
 
     // clear the search bar
     document.querySelector('.weather-search').focus();
     userInput.innerHTML = '';
 
     // fetch ALL data from a single source
-    // pass data AFTER success 
+    // get location data AFTER success 
     fetchData(location).then(data => {
 
         // call getCity
@@ -84,15 +110,11 @@ searchBtn.addEventListener("click", function (event) {
         // call renderHistoryButtons
         renderHistoryButtons()
 
-        // // save to local storage
-        // // saveCityToLocal(city, country) // we havent defined these yet!
-        saveAllToLocal(data) // send all data?
     });
 
 });
 
 // generated locations event listener 
-
 
 
 
