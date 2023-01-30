@@ -17,7 +17,6 @@ let weatherIcon = document.querySelector('.weather-icon')
 let description = document.querySelector('.description')
 let current = document.querySelector('.current')
 let history = document.querySelector('#history')
-let weatherBottom = document.querySelector('.weather-bottom')
 let fiveDayLabel = document.querySelector('.five-day-heading')
 let buttonsPane = document.querySelector('.buttons-pane')
 let viewerPane = document.querySelector('.viewer')
@@ -75,11 +74,21 @@ function getDateTime() {
 // checkHumidity()
 // checkTemp()
 
+// on-load or refresh grab out of local
+// this needs to be an array
+// let storedLocationData = localStorage.getItem('locations');
+// locationData.JSON.parse(storedLocationData)
+
+// console.log(locationData)
+
 // if city not found in openweather api then do not accept entry?
 
 removeBtn.addEventListener('click', function (event) {
     // clear all the buttons, history and storage 
     $('.buttons-pane').empty();
+    // clear the array
+    historyArray = [];
+    console.log('history array is now cleared:', historyArray)
 })
 
 // event listener for search button
@@ -88,6 +97,9 @@ searchBtn.addEventListener("click", function (event) {
 
     // prevent default browser behaviour
     event.preventDefault();
+
+    // set viewer to light
+    viewerPane.style.backgroundColor = '#fff';
 
     // grab the text from input box
     let location = $('#search-input').val();
@@ -98,10 +110,11 @@ searchBtn.addEventListener("click", function (event) {
         return;
     }
 
+    // this does nought
     if (historyArray > 0) {
-        // resetUserInput()
+        resetViewer()
         // empty previous search
-        $('.viewer').empty()
+        // $('.viewer').empty()
         console.log('history > 0; viewer emptied')
 
     }
@@ -150,28 +163,34 @@ searchBtn.addEventListener("click", function (event) {
     // this should be within getWeatherData() why?
     function addToSearchHistory() {
         // declare the city
-        // let citySave = $(this).attr('data-name');
-        // console.log('saved city:', citySave) // currently undefined ?
-        // // let queryURL = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&limit=5&appid=${apiKey}`
+        let citySave = $('#search-input').val();
+        console.log('city saved:', citySave) // london
 
-        // // call the API (OR recall from localStorage PROBABLY)
+        // why do this individually?  We want each location saved as an object!
+        // let locationData = {
+        //     city: cityTitle,
+        //     country: country,
+        //     description: desc,
+        //     temp: temp,
+        //     humidity: hum,
+        //     wind: windMph
+        // }
+
+        // console.log('locationData for local:', locationData)
 
         // save to localStorage
 
-        let $locationId = $(this).parent().parent().attr('data-name');
-        console.log('saving the location ID (data-name)?: ', $locationId)
+        // // grab key/val and save it
+        // let $searchInput = $('search-input[data-name~="' + event.target.parentElement.dataset.value + '"]').val();
+        // // console.log(event.target.dataset.value); // undefined 
+        // console.log($('search-input[data-name~="' + event.target.parentElement.dataset.value + '"]'))
+        // console.log('searchInput saved (key/value?):', $searchInput)
+        // console.log('the value saved was: ' + $searchInput)
 
-        // grab key/val and save it
-        let $searchInput = $('search-input[data-name~="' + event.target.parentElement.dataset.value + '"]').val();
-        // console.log(event.target.dataset.value); // undefined 
-        console.log($('search-input[data-name~="' + event.target.parentElement.dataset.value + '"]'))
-        console.log($searchInput)
-        console.log('the value saved was: ' + $searchInput)
+        // localStorage.setItem(citySave, $searchInput);
 
-        localStorage.setItem($locationId, $searchInput);
-
-        // console.log('key stored:' + $($timeBlocks).attr('id') + ' & value stored: ' + todoEntry)
-        console.log('key stored:' + $locationId + ' value stored:' + $searchInput)
+        // // console.log('key stored:' + $($timeBlocks).attr('id') + ' & value stored: ' + todoEntry)
+        // console.log('key stored:' + citySave + ' value stored:' + $searchInput)
 
     }
 
@@ -213,24 +232,19 @@ function fetchData(location) {
             console.log(data)
             // console.log(typeof (data)) // object
 
+            // catch 404 errors
+            // why does this break my code??
+            // if (data.cod === 200) {
             // convert the object into usable data
             let city = data.city.name; // london!
             // console.log(city)
             let country = data.city.country; // GB
             // console.log(country) // GB
-            let coords = data.city.coord;
+            // let coords = data.city.coord;
             // console.log(coords) // coord object array
             let lat = data.city.coord.lat
             let lon = data.city.coord.lon
             // console.log(lat, lon) // OK
-
-            // if elements are NOT empty - empty them first
-            // if (location.value === '') {
-            //     $('.viewer').empty()
-            //     console.log('history > 0; viewer emptied')
-            // }
-
-            // else {
 
             // create
             let cityTitle = document.createElement('h1');
@@ -259,31 +273,45 @@ function fetchData(location) {
 
             // 5-day forecast from here??
             fiveDayForecast(data)
+
+            // call save to storage function
+            // addToSearchHistory()
             // }
 
-
-            // catch garbage 
-            // if location not found by API ?
-            // return instance.get(`?q=${q}&appid=${appid}`).then(/*...*/).catch((error) => console.log('Request failed!'));
-
-            // if (!location) {
-            //     alert("Hey you just 404'd! City not found." )
+            // else {
+            //     // catchError()
+            //     alert("you just 404'd! Try again...")
+            //     return;
             // }
 
-            // }).fail(() => {
-            // alert("City doesn't Exist!!");
-            // $(".city-name").val("");
-            // $("city").text("");
-            // $("description").text("");
-            // $("country").text("");
-            // // $("#mintemp").html("");
-            // // $("#maxtemp").html("");
+            // create object for storage
+
+            // let locationData = {
+            //     city: cityTitle,
+            //     country: country,
+            //     description: desc,
+            //     temp: temp,
+            //     humidity: hum,
+            //     wind: windMph
+            // }
+
+            // console.log('locationData for local:', locationData)
+
         })
+}
+
+function catchError(location) {
+    alert("you just 404'd! Try again...")
+    fetchData(location)
 }
 
 // so how do we access the weather stats required??
 function getCurrentWeather(lat, lon) {
     // tap into weather using lat & lon
+    // I cannot use fetch here - it breaks everything!!
+    // fetch(queryURL)
+    // .then(response => response.json())
+    // .then(data => {
     $.ajax({
         url: 'https://api.openweathermap.org/data/2.5/weather',
         data: {
@@ -298,10 +326,7 @@ function getCurrentWeather(lat, lon) {
             // console.log('the temp(F): ', fah)
 
             // convert to Celsius 
-            // (F * by 1.8 (or 9/5) and + 32.)
-            // let cel = (parseFloat(fah) - 32) * 5 / 9 + " °C";
             fahToCel(fah)
-            // fahrenheit to celsius converter function
             function fahToCel(fah) {
                 getCels = (parseFloat(fah) - 32) * 5 / 9;
                 return getCels;
@@ -312,12 +337,10 @@ function getCurrentWeather(lat, lon) {
             fahr = fah.toFixed(1); // oddly, not ok
 
             // city 
-
             let city = data.name; // london!
             // console.log(city)
 
             // description
-
             let desc = data.weather[0].description;
             // console.log(desc)
 
@@ -332,6 +355,7 @@ function getCurrentWeather(lat, lon) {
             // console.log(data["main"]["feels_like"]) // ok
             let feels = data["main"]["feels_like"]
             let feelsLike = document.createElement('h4');
+            // for future button toggle
             // feelsLike.textContent = `Feels like ${feels} F`;
             // convert it to Celsius
             getFeelsCels = (parseFloat(feels) - 32) * 5 / 9;
@@ -346,7 +370,7 @@ function getCurrentWeather(lat, lon) {
             // for American folks!
             // TODO: offer a switch toggle here to select which gets displayed
             let cityTempF = document.createElement('h3');
-            cityTempF.textContent = `For you American folk, that's: ${fahr} °F`;
+            cityTempF.textContent = `For you American folks, that's: ${fahr} °F`;
             // generate google icon
             tempIcon = document.createElement('span')
             tempIcon.classList.add('pulse')
@@ -356,9 +380,7 @@ function getCurrentWeather(lat, lon) {
             // clear prior values
             current.innerHTML = '';
             // append to page 
-            current.append(tempIcon, cityTemp)
-            // current.appendChild(cityTemp)
-            // current.appendChild(cityTempF)
+            current.append(tempIcon, cityTemp, cityTempF)
 
             // log humidity
             // console.log(data["main"]["humidity"] + '%')
@@ -366,7 +388,7 @@ function getCurrentWeather(lat, lon) {
             let humidity = document.createElement('h4');
             humidity.textContent = `Current humidity is ${hum}%`
 
-            // generate google icon HUMIDITY
+            // generate google icon HUMIDITY [todo]
 
             // IF humidity <= 33% (low icon)
             // else if humidity <= 66% (med icon)
@@ -377,13 +399,13 @@ function getCurrentWeather(lat, lon) {
             humIcon.classList.add('material-symbols-outlined');
             humIcon.textContent = 'humidity_percentage';
             current.append(humIcon, humidity)
-            // current.appendChild(humidity)
 
             // windspeed
             // console.log(data.wind.speed)
             let wind = data.wind.speed;
             let windSpeed = document.createElement('h4');
             windSpeed.textContent = `Wind speed is currently ${wind} KPH`
+            // for future toggle update
             // current.appendChild(windSpeed)
 
             // google air icon
@@ -393,7 +415,6 @@ function getCurrentWeather(lat, lon) {
             airIcon.textContent = 'air';
             current.appendChild(airIcon)
             // get MPH: KPH / 1.609344 = MPH
-
             let mph = parseFloat(wind) / 1.609344
             // console.log(mph)
             let mphFixed = mph.toFixed(2)
@@ -402,24 +423,43 @@ function getCurrentWeather(lat, lon) {
             current.appendChild(windMph)
 
             // icon code
-
             // console.log(data.weather[0].icon) // grabs icon code for city
             // let iconCode = data.weather[0].icon;
             let { icon } = data.weather[0];
 
-            weatherIcon.innerHTML = `
-                                    <img src="./assets/images/icons/${icon}.png">`;
+            weatherIcon.innerHTML = `<img src="./assets/images/icons/${icon}.png">`;
 
+            // create the data object for storage 
+            let locationData = {
+                city: city,
+                description: desc,
+                temp: cels,
+                humidity: hum,
+                wind: mphFixed
+            }
+            // empty array to store each location
+            let locations = [];
+            // if local has locations 
+            if (localStorage.getItem("locations")) {
+                // grab them 
+                locations = JSON.parse(localStorage.getItem("locations"));
+            }
+            // add a new data-index to each saved location and ++ (must be +1??)
+            locationData.dataIndex = locations.length + 1;
+            // push new object to array
+            locations.push(locationData);
+            // set it to local
+            localStorage.setItem("locations", JSON.stringify(locations));
+            // debug
+            console.log('locationData for local:', locationData) // OK
+
+            // // send to local - fine, but will overwrite each time 
+            // localStorage.setItem("location", JSON.stringify(locationData));
         }
     })
 }
 
 function fiveDayForecast(data) {
-
-    // grab the min and max for the day?
-    // let tempMin = data.temp_min;
-    // let tempMax = data.temp_max;
-    // console.log(tempMin, tempMax) // undefined
 
     // fetch 5-day forecast here
     console.log(data.list[0])
@@ -433,18 +473,30 @@ function fiveDayForecast(data) {
     fiveDayLabel.prepend(fiveDayTitle);
 
     const forecastList = data.list;
+    // grab the min and max for the day [todo]
+    // let tempMin = forecastList.main.temp_min;
+    // let tempMax = forecastList.main.temp_max;
+    // console.log(tempMin, tempMax) // undefined
     const forecast5Container = document.querySelector(".forecast-5");
     forecast5Container.classList.add("d-inline-flex");
 
     // iterate through every dt time stamp, skipping stamps by 8 each pass
-
-    for (let i = 0; i < forecastList.length; i += 8) {
+    // clear prior values
+    forecast5Container.innerHTML = '';
+    // index each card
+    let num = 0;
+    // iterate through each stamp, skipping every 8
+    for (let i = 7; i < forecastList.length; i += 8) {
         const forecast = forecastList[i];
         // console.log('this days forecast stamp:', forecast)
         let fiveDayIcon = forecast.weather[0].icon;
         // console.log('fiveDayIcon fetch:', fiveDayIcon)
         const card = document.createElement("div");
         card.classList.add("card", "bg-dark", "m-3", "justify-content-center");
+        // increase data-index by 1
+        num = ++num;
+        // console.log(num);
+        card.setAttribute('data-index', num);
         card.style.padding = '1rem';
 
         const cardBody = document.createElement("div");
@@ -457,6 +509,7 @@ function fiveDayForecast(data) {
         // let formattedDate = fiveDayDate.format('Do MM')
         let formattedDate = moment(fiveDayDate).format('dddd Do MMMM');
         // title.textContent = forecast.dt_txt; // must be formatted using moment
+        title.innerHTML = '';
         title.textContent = formattedDate;
 
         const temp = document.createElement("p");
@@ -466,6 +519,7 @@ function fiveDayForecast(data) {
         let forecast5Cels = parseFloat(forecast.main.temp) - 273.15;
         // console.log(forecast5Cels.toFixed(0))
         forecast5Temp = forecast5Cels.toFixed(0);
+        temp.innerHTML = '';
         temp.textContent = `Temperature: ${forecast5Temp} °C`; // kelvin!! needs processing through temp converter function
 
         // if temp is below 5 - change its colour
@@ -474,72 +528,43 @@ function fiveDayForecast(data) {
         } else if (forecast5Temp <= 12) {
             temp.style.color = 'orange';
         } else {
+            // it's warm!
             temp.style.color = '#D65745';
         }
-
+        // get weather description
         const weather = document.createElement("p");
         weather.classList.add("card-text");
+        weather.innerHTML = '';
         weather.textContent = `Weather: ${forecast.weather[0].description}`;
 
         // add image element for the icon
         const icon = document.createElement("img");
         icon.classList.add("card-img-top", "text-center");
-        // as an alternative to grabbing the icons from my folder (might swap these out I think)
+        // as an alternative to grabbing the icons from my folder
         icon.src = `https://openweathermap.org/img/wn/${fiveDayIcon}@2x.png`;
-        // or via my own image files
-        // icon.src =`./assets/images/icons/${fiveDayIcon}.png`; // fail!
+        // style icons
         icon.style.width = "100px";
         icon.style.height = "100px";
         icon.style.borderRadius = '1rem';
         icon.style.margin = '2rem auto';
+        icon.style.backgroundColor = 'orange';
 
-        // if 01n or 10n (sun?) color them orange?
-        if (fiveDayIcon) {
-            icon.style.backgroundColor = 'orange';
-        }
-
-        // why cant we clear the cards??
-
-        // clear prior values
-        // cardBody.textContent = '';
-        // cardBody.innerHTML = '';
+        // clear the cards
+        card.innerHTML = '';
+        cardBody.innerHTML = '';
         // append elements to the card
+        // icon to card 
         card.appendChild(icon);
-        cardBody.appendChild(title);
-        cardBody.appendChild(temp);
-        cardBody.appendChild(weather);
+        // title, temp and weather to body
+        cardBody.append(title, temp, weather);
+        // cardBody to card 
         card.appendChild(cardBody);
+        // card to the container 
         forecast5Container.appendChild(card);
     }
 
 }
 
-
-
-
-
-// the buttons! (on click of searchBtn)
-
-// do we have to use local storage to store the entire data for that searched city?\
-// or can we simply re-call the api when the button pressed??
-
-// we need them to:
-
-// 1. upon user clicking 'seacrh button'
-// create a new button
-// assign the city entered to its label (textContent)
-// save the cities data to local storage (using key/value) 
-// key is the button ID and value is the weather data
-
-// 2. when user clicks that button
-// clear the current weather-view div (prior search)
-// pull the key/value from local and generate it to the 'weather-view' div
-// call the 5-day function to generate that data for the city
-
-// 3. add a remove button (all buttons are PREPENDED above this history button)
-// when user clicks 'clear history' -> 
-// clear all local storage 
-// clear and delete all the buttons 
 
 // render new history buttons
 
@@ -547,35 +572,39 @@ function renderHistoryButtons() {
 
     // stop duplicates (clear previous)
     $('.buttons-pane').empty();
-
+    // re-show from remove function
+    // buttonsPane.style.display = "block"; - nope!
+    let count = 0;
     // loop through array items
     for (let i = 0; i < historyArray.length; i++) {
-        // capitalise title
+        // assign item to btn
         let btnLabel = historyArray[i];
+        count++;
         // let capBtnLabel = btnLabel.capitalize();
         console.log('btnLabel has rendered via array: ', btnLabel)
         // generate buttons from array
         let newBtn = document.createElement('button');
-        // why do we have to do the Jquery way here~??
-        // let newBtn = $('<button>');
-        // add a class to it
-        // newBtn.addClass('searched-city');
-        // make it a bootstrap button
+        //add classes
         newBtn.classList.add('btn', 'btn-secondary', 'searched-city');
         // add a data-attribute 
-        // newBtn.attr('data-name', historyArray[i]);
         newBtn.setAttribute('data-name', historyArray[i])
-        // style it
-        // newBtn.attr('style', 'background-color: orange')
+
+        // style buttons
         newBtn.style.backgroundColor = 'orange';
         newBtn.style.borderRadius = '1rem';
         newBtn.style.textTransform = 'capitalize';
+        newBtn.style.width = '8rem';
         // add the city as the button text
         newBtn.textContent = historyArray[i];
         // append the button to the aside
-        buttonsPane.appendChild(newBtn) // this is not Jquery
-        // $('.buttons-pane').append(newBtn)
+        buttonsPane.appendChild(newBtn)
 
+    }
+    // why won't this persist??
+    if (count > 5) {
+        let counterAlert = document.createElement('h3');
+        counterAlert.innerHTML = "\nWoah! How many cities yer visiting there?\nWe about to make this UI look well ugly!"
+        current.appendChild(counterAlert)
     }
 }
 

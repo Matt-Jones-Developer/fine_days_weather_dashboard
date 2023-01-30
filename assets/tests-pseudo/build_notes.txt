@@ -134,6 +134,32 @@ MVP FIRST.
 
     * could these be compounded into a getWeather() function?
 
+4. localStorage (stringify object and parse back)
+
+	// what is required to save?~ 
+		// location (cityName) if country use (cityTitle) (both name and country)
+		// temperature (
+		// description (weather)
+		// feelsLike
+		// humidity
+		// wind speed 
+
+	// How do we best save the data ? - in a single object {}
+
+	// ISSUE: we have a city/country function (but global cityName var)
+		// we then have a getWeather function with all the little things in (city, desc, feels, cityTemp, hum, wind)
+		// we finally have a 5-day function too!! (forecastList, forecast, fiveDayDate
+
+	// easiest way to retrieve it from localStorage AND generate it back o=into the elements?
+
+	-> each item of object must be sent to the correct labels?
+
+	// ALSO: we need to use data-indexing to allow for multiple locations AND push them to an ARRAY.
+			// make sure to add matching dat-indexes to the generated BUTTONS - so that when user clicks on these,
+			// the correct data is pulled out of local
+
+	
+
 
 4. global variables 
 
@@ -163,19 +189,34 @@ MVP FIRST.
 
 // current issues (to solve):::
 
--> clear previous data when user types in another city
--> clear previous 5-day forecast cards and title when re-entering a city!
+-> [DONE] clear previous data when user types in another city 
+-> [DONE] clear previous 5-day forecast cards and title when re-entering a city!
 -> save to local storage and persist data!
 -> when user clicks a historyButton -> retrieve that data-name and value from localStorage
 -> when user presses 'clear history' the buttons disappear
 
 
-*IMPORTANT* !! 
+!! *IMPORTANT BUG FIXES / TODO* !! 
+
+-> how to create an event listener for the generated buttons?
+
+
 -> IF user types in garbage -> filter/notify (like the password generator!)
 -> only partially done-> if user enters an unknown/garbage entry it will 404 and add the button to the list!! We want an alert "city not found" and not call renderButtons()
 
 -> [DONE] IF user enters NOTHING and hits search (no button should be created)
 
+-> If user has already saved a city to storage (and a button) -> alert, do not add duplicate
+
+   -> 'clear history' clicked - it clears, BUT if you search for any city again 
+	-> they ALL return (without any local storage happening!!
 
 
-    
+* MINOR UI BUGS*
+
+-> [DONE] the saved buttons get wider after 3 buttons created? (Set width?)
+-> [DONE] change history buttons lengths to allow more in less vertical space
+-> [DONE] force width of search and remove buttons 
+
+
+

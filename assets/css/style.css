@@ -1,18 +1,13 @@
 /* weather app CSS styling */
 
 :root {
-    --dark: #333333;
+    --darker: #333333;
+    --dark: #555555;
     --light: #fff;
-    --highlight: #74FBB5;
+    --pink: #E2649B;
     --hover: #fff;
     --hover-span: orange;
     --box-shadow: rgba(0, 0, 0, 0.8);
-    --gb-grey: #BCBEC3;
-    --peachy: #F3AEAC;
-    --peachier: #EA655D;
-    --purps: #A5ACF5;
-    --aqua: #74FBB5;
-    --lumi: #c0fa62;
     --gradient: linear-gradient(45deg,
             rgba(54, 54, 54, 0.8) 0%,
             rgba(125, 125, 125, 0.7) 100%);
@@ -89,8 +84,12 @@ a:hover {
 
 input[type=text] {
     text-transform: capitalize;
+    width: 17rem;
 }
 
+.btn {
+    width: 17rem;
+}
 /* flex container */
 
 .container {
@@ -139,6 +138,14 @@ input[type=text] {
 
 }
 
+#aside {
+    width: 25%;
+}
+
+.search-hr {
+    width: 17rem;
+}
+
 .weather-top {
     margin: 0 auto;
     margin-top: 2rem;
@@ -148,19 +155,20 @@ input[type=text] {
 }
 
 .viewer {
-    background-color: #fff;
+    background-color: var(--gradient-light);
     color: #333333;
     border-radius: 1rem;
-    padding-top: 0;
+    padding-top: 2rem;
     padding: 1rem 2rem;
     padding-bottom: 0;
     /* border: 1px solid red; */
 }
 
 .current-top {
-    margin-top: -1rem;
+    margin-top: 1rem;
     padding-top: -1rem;
     padding-bottom: 1.5rem;
+    line-height: 2rem;
 }
 
 .current-top .container {
@@ -289,10 +297,6 @@ input[type=text] {
 .card img {
     -webkit-font-smoothing: antialiased;
 }
-
-/* #aside {
-    height: 30vh;
-} */
 
 /* footer */
 
