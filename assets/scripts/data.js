@@ -73,6 +73,9 @@ searchBtn.addEventListener("click", function (event) {
         // generate all elements
         generateElements(data)
 
+        // call 5-day
+        generateFiveDayElements(data)
+
         // call renderHistoryButtons
         renderHistoryButtons()
 
