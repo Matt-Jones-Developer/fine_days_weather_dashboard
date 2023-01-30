@@ -125,9 +125,7 @@ function getCity(data) {
     let sunSet = data.city.sunset;
     console.log('the citys sunset is:', sunSet) // unix (use moment!)
 
-    // access city coords for detailed weather fetch
-    // let coords = data.city.coord;
-    // console.log(coords) // coord object array
+    // access city coords
     let lat = data.city.coord.lat
     let lon = data.city.coord.lon
     console.log('the countries coords are: ', lat, lon) // OK

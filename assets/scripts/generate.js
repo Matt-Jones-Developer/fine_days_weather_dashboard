@@ -1,19 +1,13 @@
 // generate all the elements 
 
 // testMe()
-
 // function testMe() {
-
 //     alert("I'm here! testMe via generate.js")
-
 // }
 
 // globals
-// currently defined within data.js 
-// const searchBtn = document.querySelector('.search-button')
 
 const userInput = document.querySelector('#search-input')
-
 const removeBtn = document.querySelector('#remove-btn')
 
 let cityName = document.querySelector('.city-name')
@@ -25,14 +19,9 @@ let fiveDayLabel = document.querySelector('.five-day-heading')
 let buttonsPane = document.querySelector('.buttons-pane')
 let viewerPane = document.querySelector('.viewer')
 
-// // array to store history - stored within data.js 
-// let historyArray = [];
-// console.log('history array is empty:', historyArray)
 
-// how can we access the array from another .js file?
-console.log('accessed historyArray from data.js!!:', historyArray)
+// generate dynamic elements for current weather 
 
-// generate dynamic elements 
 function generateElements(data) {
 
     // everything that must be rendered to the page 
@@ -163,79 +152,103 @@ function generateElements(data) {
 
 }
 
-// 5-day forecast generation function
+// 5-day forecast elements generation
 
 function generateFiveDayElements(data) {
 
+    // 5-day forecast
+    console.log(data.list[0])
     // test
     console.log("generated 5-day elements func was called!")
-    // fetch 5-day forecast here
-    console.log(data.list[0])
+
     const fiveDayTitle = document.createElement("h1");
     fiveDayTitle.style.padding = '1rem';
     // clear prior values
     fiveDayLabel.innerHTML = '';
     fiveDayTitle.textContent = 'Five Day Forecast';
     fiveDayLabel.prepend(fiveDayTitle);
-
+    // var to iterate through data list (dt[i])
     const forecastList = data.list;
     // grab the min and max for the day [todo]
     // let tempMin = forecastList.main.temp_min;
     // let tempMax = forecastList.main.temp_max;
     // console.log(tempMin, tempMax) // undefined
+    // locate 5-day container div
     const forecast5Container = document.querySelector(".forecast-5");
     forecast5Container.classList.add("d-inline-flex");
 
-    // iterate through every dt time stamp, skipping stamps by 8 each pass
+    // iterate through dt time stamps
     // clear prior values
     forecast5Container.innerHTML = '';
     // index each card
     let num = 0;
     // iterate through each stamp, skipping every 8
     for (let i = 7; i < forecastList.length; i += 8) {
-        const forecast = forecastList[i];
-        // console.log('this days forecast stamp:', forecast)
-        let fiveDayIcon = forecast.weather[0].icon;
-        // console.log('fiveDayIcon fetch:', fiveDayIcon)
-        const card = document.createElement("div");
-        card.classList.add("card", "bg-dark", "m-3", "justify-content-center");
         // increase data-index by 1
         num = ++num;
+        // declare forecast item each pass
+        const forecast = forecastList[i];
+        // console.log('this days forecast stamp:', forecast)
+        // set the days icon
+        let fiveDayIcon = forecast.weather[0].icon;
+        // console.log('fiveDayIcon fetch:', fiveDayIcon)
+        // set temp var again
+        let temp = forecast.main.temp;
+        console.log('temp check: ', temp)
+        // set humidity var
+        let hum = forecast.main.humidity;
+        console.log('hum check: ', hum)
+        // create the card element
+        const card = document.createElement("div");
+        card.classList.add("card", "bg-dark", "m-3", "justify-content-center");
         // console.log(num);
+        // set card attr and styling 
         card.setAttribute('data-index', num);
         card.style.padding = '1rem';
-
+        card.style.paddingBottom = '2rem';
+        // create card body
         const cardBody = document.createElement("div");
         cardBody.classList.add("card-body");
-
+        // add title
         const title = document.createElement("h4");
         title.classList.add("card-title");
+        // add the date 
         // convert dt_txt via moment 
         let fiveDayDate = forecast.dt_txt
         // let formattedDate = fiveDayDate.format('Do MM')
         let formattedDate = moment(fiveDayDate).format('dddd Do MMMM');
         // title.textContent = forecast.dt_txt; // must be formatted using moment
+        // clear card title
         title.innerHTML = '';
+        // set new content 
         title.textContent = formattedDate;
+        // gen temp label
+        const tempLabel = document.createElement("p");
+        tempLabel.classList.add("card-text", "pulse");
+        // convert to celsius 
+        let forecast5Temp = kelToCel(temp);
+        console.log('temp in celsius: ', forecast5Temp)
+        // clear previous
+        tempLabel.innerHTML = '';
+        // set new content 
+        tempLabel.textContent = `Temperature: ${forecast5Temp} °C`;
 
-        const temp = document.createElement("p");
-        temp.classList.add("card-text", "pulse");
-        // convert that days temperature to Celsius
-        // Celsius = (Kelvin – 273.15)
-        let forecast5Cels = parseFloat(forecast.main.temp) - 273.15;
-        // console.log(forecast5Cels.toFixed(0))
-        forecast5Temp = forecast5Cels.toFixed(0);
-        temp.innerHTML = '';
-        temp.textContent = `Temperature: ${forecast5Temp} °C`; // kelvin!! needs processing through temp converter function
+        // addition of humidity reading for 5-day
+        const humLabel = document.createElement('P');
+        humLabel.classList.add("card-text", "humidity");
+        // clear previous
+        humLabel.innerHTML = "";
+        // set new content
+        humLabel.textContent = `Humidity: ${hum}%`;
 
         // if temp is below 5 - change its colour
         if (forecast5Temp <= 5) {
-            temp.style.color = 'lightblue';
+            tempLabel.style.color = 'lightblue';
         } else if (forecast5Temp <= 12) {
-            temp.style.color = 'orange';
+            tempLabel.style.color = 'orange';
         } else {
             // it's warm!
-            temp.style.color = '#D65745';
+            tempLabel.style.color = '#D65745';
         }
         // get weather description
         const weather = document.createElement("p");
@@ -262,7 +275,7 @@ function generateFiveDayElements(data) {
         // icon to card 
         card.appendChild(icon);
         // title, temp and weather to body
-        cardBody.append(title, temp, weather);
+        cardBody.append(title, tempLabel, humLabel, weather);
         // cardBody to card 
         card.appendChild(cardBody);
         // card to the container 
@@ -292,7 +305,7 @@ function renderHistoryButtons() {
     // catch duplicate entry
     // why doesn't this !not work here?? - because location is a very strange object!
     // if (!historyArray.includes(location)) {
-    // this should be NOT DAMN IT!!!
+    // this should be NOT - it doesn't work also!
     if (!historyArray.includes($('#search-input').val())) {
         // loop through array items
         for (let i = 0; i < historyArray.length; i++) {
