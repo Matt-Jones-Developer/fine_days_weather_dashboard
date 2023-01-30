@@ -70,6 +70,21 @@ MVP FIRST.
             // current weather (human readable stringify)?
             // the temp, wind speed and humidity?
 
+	// EVERYTHING CAN BE ACCESSED VIA DATA (forecast) - no need for separate fetch!
+
+	// data.city.name 
+	// data.city.country
+	// data.city.coord {lat, lon}
+	// data.city.coord.lat and .lon
+	// data.city.sunrise .sunset
+	// .timezone 
+	//  data.cod (200) for a correct city
+	// data.list[0] - current dt stamp
+	// data.list[0].main - access to .temp, .feels_like .temp_min .temp_max .humidity
+	// data.list[0].weather[0].description
+	// data..list[0].weather[0].icon
+	// .list[0].wind 
+
 
     // UI [MVP] requires:
         // a search bar (search city)
@@ -210,6 +225,15 @@ MVP FIRST.
 
    -> 'clear history' clicked - it clears, BUT if you search for any city again 
 	-> they ALL return (without any local storage happening!!
+
+// -> SOLVED !! My code is looking very clean and refined after 3 refactors!!
+
+// POTENTIAL ISSUE SPLITTING THESE .JS FILES UP:: 
+// ** we need to call other functions within in event listener!!
+// generateButtons()
+// others? renderElements() - main GUI content etc 
+// removeButton event listener
+// save and retrieve from local functions 
 
 
 * MINOR UI BUGS*

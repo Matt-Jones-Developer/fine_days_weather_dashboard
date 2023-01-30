@@ -99,7 +99,7 @@ input[type=text] {
 /* header */
 
 .header {
-    height: 10rem;
+    height: 9rem;
     text-align: center;
     /* border: 1px solid red; */
     background-color: var(--gradient);
@@ -109,7 +109,7 @@ input[type=text] {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-top: .5rem;
+    /* padding-top: .5rem; */
     /* border: 1px solid red; */
 }
 
@@ -332,5 +332,5 @@ input[type=text] {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: -2rem auto;
+    margin: -3rem auto;
 }
