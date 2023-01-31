@@ -99,6 +99,9 @@ Product screenshot:
 
 [![Product Name Screen Shot][product-screenshot]](https://github.com/Matt-Jones-Developer/fine_days_weather_dashboard)
 
+[![Product Name Screen Shot][product-screenshot-2]](https://github.com/Matt-Jones-Developer/fine_days_weather_dashboard)
+
+
 ## Criteria
 
 
