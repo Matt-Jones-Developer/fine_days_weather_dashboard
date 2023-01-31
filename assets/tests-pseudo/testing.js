@@ -1,7 +1,37 @@
 // testing ideas
 
+// testMe()
+// function testMe() {
+//     alert("I'm here! testMe via generate.js")
+// }
+
+// // function - set date and time 
+// function getDateTime() {
+//     // set moment for todays date 
+//     let today = moment()
+//     console.log(today) // object
+//     // format date
+//     let currentDate = moment().format('[Today is] dddd, Do MMMM');
+//     console.log(currentDate)
+//     // append it to element 
+//     let dateTag = document.querySelector('#date');
+//     dateTag.append(currentDate)
+
+//     // get the time and update it every second
+//     setInterval(function () {
+//         // set time 
+//         document.querySelector('#time').textContent =
+//             today.format('[Current time (GMT):] HH:mm:ss')
+//         // update every second
+//     }, 1000)
+// }
+
 // accessing variables between functions  
-// currying vs returning variables 
+
+
+// currying vs returning variables ??
+
+
 // funcOne()
 
 // function funcOne() {

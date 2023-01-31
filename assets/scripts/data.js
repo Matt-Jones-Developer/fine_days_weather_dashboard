@@ -1,25 +1,20 @@
 // location widget app
 
-// temp global searchBtn - may move this to more logical file
+// globals for data.js
 const searchBtn = document.querySelector('.search-button')
 const userInput = document.querySelector('#search-input')
+
 // for viewer colour change request
 let viewerPane = document.querySelector('.viewer')
-
-// global for city location
-// as saveToLocal cannot find it
-// let location;
-
-// all data functions and API fetching
-
+// api key
 const apiKey = '8d752016daf18245563fe658805d4425';
 
-// array to store history - again where is the best location for this?
+// array to store history
 let searchHistory = [];
 console.log('history array is empty:', searchHistory)
 
 
-// call the dateTime 
+// call dateTime 
 getDateTime()
 
 // function - set date and time 
@@ -45,11 +40,9 @@ function getDateTime() {
     }, 1000)
 }
 
-// all event handlers (new script?) or within the renderHistoryButtons()
+// all event handlers and on-load
 
-// on-load handler - grab the items and buttons from local?
-// how will we get the buttons??
-// on-load event handler?
+// on-load handler - grab items and buttons from local
 window.onload = function () {
     // if local has locations 
     if (localStorage.getItem("search-history")) {
@@ -59,7 +52,6 @@ window.onload = function () {
 
         // generate the button(s) for the saved cities
         renderHistoryButtons()
-
     }
 }
 
@@ -73,8 +65,6 @@ searchBtn.addEventListener("click", function (event) {
     let location = document.querySelector('#search-input').value;
     console.log('city/location: ', location)
 
-
-
     // if user clicks button but no city entered - catch
     if (location === '' || !isNaN(location)) {
         alert('Enter a City please!');
@@ -86,16 +76,15 @@ searchBtn.addEventListener("click", function (event) {
     }
 
     // push the city to the searchHistory
-
-    // should this be INSIDE saveCityToLocal()
     searchHistory.push(location);
     console.log('history array has value(s):', searchHistory)
 
     // set new item to local 
     localStorage.setItem('search-history', JSON.stringify(searchHistory));
 
-    // clear the search bar
+    // bring focus to
     document.querySelector('.weather-search').focus();
+    // clear the search bar
     userInput.innerHTML = '';
 
     // fetch ALL data from a single source
@@ -103,12 +92,9 @@ searchBtn.addEventListener("click", function (event) {
     fetchData(location).then(data => {
 
         // first point for 'data' access 
-        // ... yet this simple if else is doing the OPPOSITE of logic (why??)
         // garbage collector
         if (data.cod != 200) {
             alert("you just 404'd! Try again...")
-            // if I reverse it, it kind of works, 
-            // but the renderButton() STILL happens on next search?? (the garbage input)
 
         } else {
 
@@ -130,10 +116,6 @@ searchBtn.addEventListener("click", function (event) {
 
 });
 
-// generated locations event listener 
-
-
-
 // all data functions 
 
 // fetchData
@@ -143,56 +125,48 @@ async function fetchData(location) {
     let queryURL = `
     https://api.openweathermap.org/data/2.5/forecast?q=${location}&limit=5&appid=${apiKey}`
 
-    // return the fetched URL first
-    // now we can access data!
+    // await fetch
     const response = await fetch(queryURL)
-    // await response and assign
+    // await response and assign data
     const data = await response.json()
     console.log(data)
-    // data is undefined - not passing correctly
-    // return getCity(data)
-    // thats the one!
+    // return data
     return data;
 }
 
-// getCity (name country coords)
+// getCity (name, country)
 function getCity(data) {
-    // debug logic
+
+    // debug
     console.log(data) //undefined
 
     // define the data
     let cityData = data.city.name
     console.log('the city location name from data:', cityData)
-    let country = data.city.country; // GB
-    console.log('the citys country is:', country)
+    let country = data.city.country;
+    console.log('the country is:', country)
 
-    // access timezone
+    // access timezone [TODO]
     // can we use this to offer a 'local time' using moment
     let timeZone = data.city.timezone;
     console.log('the citys timezone is:', timeZone)
 
-    // access sunrise and sunset
+    // access sunrise and sunset [TODO]
     let sunRise = data.city.sunrise;
-    console.log('the citys sunrise is:', sunRise) // unix (use moment!)
+    console.log('the citys sunrise is:', sunRise)
     let sunSet = data.city.sunset;
     console.log('the citys sunset is:', sunSet) // unix (use moment!)
 
     // access city coords
     let lat = data.city.coord.lat
     let lon = data.city.coord.lon
-    console.log('the countries coords are: ', lat, lon) // OK
+    console.log('the countries coords are: ', lat, lon)
 
-    // make lat and lon available in the scope
-    // return lat, lon; - not required!
-
-    // call getCurrentWeather call
+    // call getCurrentWeather
     getCurrentWeather(data)
 
     // call the 5-day function
     fiveDayForecast(data)
-
-    // save to storage (adding the data as input args)
-    // saveCityToLocal(cityData, country)
 
 }
 
@@ -200,8 +174,7 @@ function getCity(data) {
 function getCurrentWeather(data) {
 
     // all access via data.list[0] (which is current dt array)
-    // debug
-    console.log(data) //undefined
+    console.log(data) 
     console.log('current hours weather: ', data.list[0])
 
     // access temp data.list[0].main.temp
@@ -249,9 +222,8 @@ function getCurrentWeather(data) {
     console.log('wind speed in MPH: ', windMph)
 
     // access description (forecast)
-    // data.list[0].weather[0].description
     let description = data.list[0].weather[0].description
-    console.log('current forecast desc.(text): ', description) // string
+    console.log('current forecast desc.(text): ', description)
 
     // access icon
     // data.list[0].weather[0].icon
@@ -265,8 +237,8 @@ function getCurrentWeather(data) {
 function fiveDayForecast(data) {
 
     // fetch data for current day
-    // same issue again - it's not calling/reading currently
-    console.log('Hello! I can read you "data"!', data.list[0])
+    // debug
+    console.log('Hello! I can read "data"!', data.list[0])
 
     // define the entire list array
     const forecastList = data.list;
