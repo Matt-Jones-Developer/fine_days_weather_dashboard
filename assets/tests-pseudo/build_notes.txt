@@ -235,7 +235,7 @@ MVP FIRST.
 
 // -> SOLVED !! My code is looking very clean and refined after 3 refactors!!
 
-// POTENTIAL ISSUE SPLITTING THESE .JS FILES UP:: 
+// POTENTIAL ISSUE SPLITTING THESE .JS FILES UP:: [DONE]
 // ** we need to call other functions within in event listener!!
 // generateButtons()
 // others? renderElements() - main GUI content etc 

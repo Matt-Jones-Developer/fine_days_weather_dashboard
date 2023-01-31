@@ -139,6 +139,16 @@ function generateElements(data) {
     // generate the icon
     weatherIcon.innerHTML = `<img src="./assets/images/icons/${icon}.png">`;
 
+    // add cute sunny image to fill bottom corner of viewer
+    // add to current - float right?
+    let sunnyIcon = document.createElement('img');
+    sunnyIcon.src = "./assets/images/logos/sunshine_mini.png";
+    sunnyIcon.classList.add('sunny-img');
+    sunnyIcon.style.float = 'right';
+    sunnyIcon.style.marginTop = '-10rem'
+    sunnyIcon.style.width = '200px';
+    current.appendChild(sunnyIcon)
+
 }
 
 // 5-day forecast elements generation

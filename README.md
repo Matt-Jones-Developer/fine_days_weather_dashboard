@@ -26,7 +26,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/Matt-Jones-Developer/fine_days_weather_dashboard">
-    <!-- <img src="assets/images/screenshots/logo-icon.png" alt="Logo" width="150" height="150"> -->
+    <img src="assets/images/screenshots/logo.png" alt="Logo" width="100" height="100">
   </a>
 
 #

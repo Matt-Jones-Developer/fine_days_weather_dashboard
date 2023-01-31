@@ -75,12 +75,19 @@ searchBtn.addEventListener("click", function (event) {
         viewerPane.style.backgroundColor = '#fff';
     }
 
-    // push the city to the searchHistory
-    searchHistory.push(location);
-    console.log('history array has value(s):', searchHistory)
+    // check if value is in the array
 
-    // set new item to local 
+    if (searchHistory.includes(location)) {
+        console.log('value already in the array')
+        alert('value already in the array.  Try again.')
+    } else {
+    // push item to array
+    searchHistory.push(location) 
+    console.log('history array has value(s):', searchHistory)
+    // save to local 
     localStorage.setItem('search-history', JSON.stringify(searchHistory));
+
+    }
 
     // clear the search bar
     userInput.innerHTML = '';
