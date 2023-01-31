@@ -55,6 +55,14 @@ window.onload = function () {
     }
 }
 
+// account for the possible keypress too (handleSearch?)
+document.querySelector('#search-input').addEventListener('keydown', function (event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+    }
+});
+
+
 // search button event listener 
 searchBtn.addEventListener("click", function (event) {
 
@@ -81,11 +89,11 @@ searchBtn.addEventListener("click", function (event) {
         console.log('value already in the array')
         // alert('value already in the array.  Try again.')
     } else {
-    // push item to array
-    searchHistory.push(location) 
-    console.log('history array has value(s):', searchHistory)
-    // save to local 
-    localStorage.setItem('search-history', JSON.stringify(searchHistory));
+        // push item to array
+        searchHistory.push(location)
+        console.log('history array has value(s):', searchHistory)
+        // save to local 
+        localStorage.setItem('search-history', JSON.stringify(searchHistory));
 
     }
 
@@ -104,7 +112,7 @@ searchBtn.addEventListener("click", function (event) {
         // garbage collector
         if (data.cod != 200) {
             alert("City not recognised! Try again...");
-            
+
 
         } else {
 

@@ -145,8 +145,8 @@ function generateElements(data) {
     sunnyIcon.src = "./assets/images/logos/sunshine_mini.png";
     sunnyIcon.classList.add('sunny-img');
     sunnyIcon.style.float = 'right';
-    sunnyIcon.style.marginTop = '-10rem'
-    sunnyIcon.style.width = '200px';
+    sunnyIcon.style.marginTop = '-8rem'
+    sunnyIcon.style.width = '150px';
     current.appendChild(sunnyIcon)
 
 }
