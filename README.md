@@ -275,7 +275,7 @@ Deployed Project Link: [https://matt-jones-developer.github.io/password_generato
 [product-screenshot-3]: assets/images/screenshots/app_screenshot_3.png
 [product-screenshot-4]: assets/images/screenshots/app_screenshot_4.png
 [console-output-screenshot]: assets/images/screenshots/console_output.png
-[wireframe-screenshot]: ./assets/images/screenshots/wireframing_screenshot.png
+[wireframe-screenshot]: ./assets/images/screenshots/wireframing.png
 [tablet-screenshot1]: ./assets/images/screenshots/ipad-screenshot.png
 [mobile-screenshot1]: ./assets/images/screenshots/mobile-screenshot1.png
 [mobile-screenshot2]: ./assets/images/screenshots/mobile-screenshot2.png
