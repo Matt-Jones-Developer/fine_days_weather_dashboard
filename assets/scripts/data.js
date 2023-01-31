@@ -2,7 +2,7 @@
 
 // globals for data.js
 const searchBtn = document.querySelector('.search-button')
-const userInput = document.querySelector('#search-input')
+let userInput = document.querySelector('#search-input')
 
 // for viewer colour change request
 let viewerPane = document.querySelector('.viewer')
@@ -44,9 +44,9 @@ function getDateTime() {
 
 // on-load handler - grab items and buttons from local
 window.onload = function () {
-    // if local has locations 
+    // if local has save history 
     if (localStorage.getItem("search-history")) {
-        // grab them 
+        // grab it
         searchHistory = JSON.parse(localStorage.getItem("search-history"));
         console.log('saved locations found:', searchHistory) // ok
 
@@ -82,10 +82,12 @@ searchBtn.addEventListener("click", function (event) {
     // set new item to local 
     localStorage.setItem('search-history', JSON.stringify(searchHistory));
 
-    // bring focus to
-    document.querySelector('.weather-search').focus();
     // clear the search bar
     userInput.innerHTML = '';
+
+    // bring focus to
+    document.querySelector('.weather-search').focus();
+
 
     // fetch ALL data from a single source
     // get location data AFTER success 
@@ -94,9 +96,13 @@ searchBtn.addEventListener("click", function (event) {
         // first point for 'data' access 
         // garbage collector
         if (data.cod != 200) {
-            alert("you just 404'd! Try again...")
+            alert("City not recognised! Try again...");
+            
 
         } else {
+
+            // set pane colour
+            viewerPane.style.backgroundColor = '#fff';
 
             // call getCity
             getCity(data)
@@ -174,7 +180,7 @@ function getCity(data) {
 function getCurrentWeather(data) {
 
     // all access via data.list[0] (which is current dt array)
-    console.log(data) 
+    console.log(data)
     console.log('current hours weather: ', data.list[0])
 
     // access temp data.list[0].main.temp

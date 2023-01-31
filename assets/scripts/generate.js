@@ -193,7 +193,7 @@ function generateFiveDayElements(data) {
         // create the card element
         const card = document.createElement("div");
         card.classList.add("card", "bg-dark", "m-3", "justify-content-center");
-    
+
         // set card attr and styling 
         card.setAttribute('data-index', num);
         card.style.padding = '1rem';
@@ -283,24 +283,35 @@ function generateFiveDayElements(data) {
 
 function renderHistoryButtons() {
 
+    // check array items
+    console.log(searchHistory)
+
+    // update the value of userInput
+    let checkEntry = $('#search-input').val();
+    console.log(checkEntry)
+
     // stop duplicates (clear previous)
     $('.buttons-pane').empty();
 
     // loop through array items
     for (let i = 0; i < searchHistory.length; i++) {
 
-        // catch duplicate entry [TODO] 
-        if (!searchHistory.includes($('#search-input').val())) {
+        // catch duplicate entry
+        // what conditional will work here??
+        // problem is (i think) that the item is 
+        // it checks here but value is ALWAYS added?
+        if (!searchHistory.includes(checkEntry)) {
+
             // assign item to btn
             let btnLabel = searchHistory[i];
             // debug
             console.log('btnLabel has rendered via array: ', btnLabel)
             // generate buttons from array
-            newBtn = document.createElement('button');
+            let newBtn = document.createElement('button');
             //add classes
             newBtn.classList.add('btn', 'btn-secondary', 'searched-city');
             // add a data-attribute 
-            newBtn.setAttribute('data-name', searchHistory[i])
+            newBtn.setAttribute('data-name', searchHistory[i]);
 
             // style buttons
             newBtn.style.backgroundColor = 'orange';
@@ -311,8 +322,16 @@ function renderHistoryButtons() {
             newBtn.textContent = searchHistory[i];
             // append the button to the aside
             buttonsPane.appendChild(newBtn)
+
+
+        } else {
+            console.log('city already in history!')
+            alert('city already in history!');
+            break;
         }
+
     }
+
 }
 
 // added history btns event listener 
@@ -327,15 +346,16 @@ $('.buttons-pane').on("click", "button.searched-city", function (event) {
 
     // define the name 
     let dataName = event.target.getAttribute('data-name')
+
     // re-fetch from the API
     // .then
     fetchData(dataName).then(data => {
 
-    // re-render elements 
-    generateElements(data)
-    generateFiveDayElements(data)
-    // set pane colour
-    viewerPane.style.backgroundColor = '#fff';
+        // re-render elements 
+        generateElements(data)
+        generateFiveDayElements(data)
+        // set pane colour
+        viewerPane.style.backgroundColor = '#fff';
 
     })
 
