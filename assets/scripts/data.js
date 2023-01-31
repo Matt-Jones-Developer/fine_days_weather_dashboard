@@ -79,7 +79,7 @@ searchBtn.addEventListener("click", function (event) {
 
     if (searchHistory.includes(location)) {
         console.log('value already in the array')
-        alert('value already in the array.  Try again.')
+        // alert('value already in the array.  Try again.')
     } else {
     // push item to array
     searchHistory.push(location) 

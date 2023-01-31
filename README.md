@@ -115,6 +115,8 @@ I am very proud of how I problem solved this assignment, how well organised and 
 
 * pulsing icons and temperature info thanks to google font icons!
 
+* I do still need to make it fully responsive for mobiles so will be updating this as soon as I can.
+
 #
 
 <!-- the product -->

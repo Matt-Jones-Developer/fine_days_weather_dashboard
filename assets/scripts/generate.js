@@ -291,14 +291,16 @@ function generateFiveDayElements(data) {
 
 // render new history buttons
 
+// bug that won't allow ENTER key to add new value without the else alert being triggered??
+
 function renderHistoryButtons() {
 
     // check array items
     console.log(searchHistory)
 
     // update the value of userInput
-    let checkEntry = $('#search-input').val();
-    console.log(checkEntry)
+    let userInput = $('#search-input').val();
+    console.log(userInput)
 
     // stop duplicates (clear previous)
     $('.buttons-pane').empty();
@@ -310,7 +312,7 @@ function renderHistoryButtons() {
         // what conditional will work here??
         // problem is (i think) that the item is 
         // it checks here but value is ALWAYS added?
-        if (!searchHistory.includes(checkEntry)) {
+        if (!searchHistory.includes(userInput)) {
 
             // assign item to btn
             let btnLabel = searchHistory[i];
