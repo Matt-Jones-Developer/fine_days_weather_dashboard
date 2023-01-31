@@ -18,7 +18,7 @@
 <!-- Readme Header -->
 
 <div align="center">
-  <img src="assets/images/header.png" alt="header-image" width="800" height="200">
+  <img src="assets/images/screenshots/header.png" alt="header-image" width="800" height="400">
 </div>
 
 
@@ -26,7 +26,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/Matt-Jones-Developer/fine_days_weather_dashboard">
-    <img src="assets/images/icon.png" alt="Logo" width="80" height="80">
+    <!-- <img src="assets/images/screenshots/logo-icon.png" alt="Logo" width="150" height="150"> -->
   </a>
 
 #
@@ -268,7 +268,10 @@ Deployed Project Link: [https://matt-jones-developer.github.io/password_generato
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: www.linkedin.com/in/matt-jones-zx81
 [product-screenshot]: assets/images/screenshots/app_screenshot.png
-[console-output-screenshot]: assets/images/screenshots/console_output_screenshot.png
+[product-screenshot-2]: assets/images/screenshots/app_screenshot_2.png
+[product-screenshot-3]: assets/images/screenshots/app_screenshot_3.png
+[product-screenshot-4]: assets/images/screenshots/app_screenshot_4.png
+[console-output-screenshot]: assets/images/screenshots/console_output.png
 [wireframe-screenshot]: ./assets/images/screenshots/wireframing_screenshot.png
 [tablet-screenshot1]: ./assets/images/screenshots/ipad-screenshot.png
 [mobile-screenshot1]: ./assets/images/screenshots/mobile-screenshot1.png
@@ -276,7 +279,7 @@ Deployed Project Link: [https://matt-jones-developer.github.io/password_generato
 [javascript-url]: https://www.javascript.com
 [html5-url]: https://html5.org/
 [css-url]: https://www.w3.org/Style/CSS/Overview.en.html
-[js-logo]: assets/images/icons/js.svg
-[html5-logo]: assets/images/icons/html5.svg
-[css-logo]: assets/images/icons/css3.svg
+[js-logo]: assets/images/logos/js.svg
+[html5-logo]: assets/images/logos/html5.svg
+[css-logo]: assets/images/logos/css3.svg
 
