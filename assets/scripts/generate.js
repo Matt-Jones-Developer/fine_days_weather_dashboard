@@ -176,7 +176,8 @@ function generateFiveDayElements(data) {
 
     // locate 5-day container div
     const forecast5Container = document.querySelector(".forecast-5");
-    forecast5Container.classList.add("d-inline-flex");
+    forecast5Container.classList.add("d-inline-flex", "fluid-container", "row", 
+    "card-container");
 
     // dt time stamps
     // clear prior values
@@ -203,6 +204,23 @@ function generateFiveDayElements(data) {
         // create the card element
         const card = document.createElement("div");
         card.classList.add("card", "bg-dark", "m-3", "justify-content-center");
+
+        // render correct widths per device
+        card.style.width = "300px";
+
+        if (window.innerWidth <= 1024) {
+          card.classList.add("col-4");
+          card.style.width = "290px";
+        } else if (window.innerWidth <= 834) {
+          card.classList.add("col-6");
+          card.style.width = "400px";
+        } else if (window.innerWidth <= 768) {
+          card.classList.add("col-6");
+          card.style.width = "330px";
+        } else {
+          card.classList.add("col-12");
+          // card.style.width = "400px";
+        }
 
         // set card attr and styling 
         card.setAttribute('data-index', num);

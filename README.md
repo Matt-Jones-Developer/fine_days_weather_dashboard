@@ -308,9 +308,9 @@ Deployed Project Link: [https://matt-jones-developer.github.io/password_generato
 [issues-shield]: https://img.shields.io/github/issues/matt-jones-developer/fine_days_weather_dashboard.svg?style=for-the-badge
 [issues-url]: https://github.com/Matt-Jones-Developer/fine_days_weather_dashboard/issues
 [license-shield]: https://img.shields.io/github/license/matt-jones-developer/fine_days_weather_dashboard.svg?style=for-the-badge
-[license-url]: https://github.com/Matt-Jones-Developer/fine_days_weather_dashboard/blob/main/LICENSE.txt
+[license-url]: https://github.com/Matt-Jones-Developer/fine_days_weather_dashboard/blob/main/LICENSE
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: www.linkedin.com/in/matt-jones-zx81
+[linkedin-url]: https://www.linkedin.com/in/matt-jones-zx81
 [product-screenshot]: assets/images/screenshots/app_screenshot.png
 [product-screenshot-2]: assets/images/screenshots/app_screenshot_2.png
 [product-screenshot-3]: assets/images/screenshots/app_screenshot_3.png
